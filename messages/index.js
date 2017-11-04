@@ -46,59 +46,60 @@ bot.dialog('/', [
     function (session) {
         builder.Prompts.text(session, "How many people are in your party?");
     },
-    
+
     function (session, results) {
-       session.endDialogWithResult(results);
+        session.endDialogWithResult(results);
     }
 ])
-.beginDialogAction('partySizeHelpAction', 'partySizeHelp', { matches: /^help$/i });
+    .beginDialogAction('partySizeHelpAction', 'partySizeHelp', { matches: /^help$/i });
 
 // Context Help dialog for party size
-bot.dialog('partySizeHelp', function(session, args, next) {
+bot.dialog('partySizeHelp', function (session, args, next) {
     var msg = "P    arty size help: Our restaurant can support party sizes up to 150 members.";
     session.endDialog(msg);
 })
 
-bot.dialog('children',[
+bot.dialog('children', [
     function (session) {
         builder.Prompts.text(session, "How many children do you have?");
     },
-    
+
     function (session, results) {
         session.send("Thanks!");
     }
 ])
-.triggerAction({
-    matches: /^children$/i,
-    confirmPrompt: "This will cancel your current request. Are you sure?"
-});
+    .triggerAction({
+        matches: /^children$/i,
+        confirmPrompt: "This will cancel your current request. Are you sure?"
+    });
 
 
-bot.dialog('pdf',[
+bot.dialog('pdf', [
     function (session) {
-	var sourcePdf = '/data/fw4.pdf';
-	var destPdf = '/data/fw4_filled.pdf';
-	var data = {
-	    "topmostSubform[0].page1[0].f1_01_0_[0]": "34",
-	    "topmostSubform[0].page1[0].f1_02_0_[0]": "66"	    
-	};
-        pdfFiller.fillFrom( sourcePdf, destPdf, data, function(err) {
-	    if (err) session.send('Error saving pdf');
-	    console.log("Error saving pdf");
-	});
+        // var sourcePdf = '/data/fw4.pdf';
+        // var destPdf = '/data/fw4_filled.pdf';
+        // var data = {
+        //     "topmostSubform[0].page1[0].f1_01_0_[0]": "34",
+        //     "topmostSubform[0].page1[0].f1_02_0_[0]": "66"
+        // };
+
+        // pdfFiller.fillFrom(sourcePdf, destPdf, data, function (err) {
+        //     if (err) session.send('Error saving pdf');
+        //     console.log("Error saving pdf");
+        // });
         builder.Prompts.text(session, "How many children do you have?");
     },
-    
+
     function (session, results) {
         session.send("Thanks!");
     }
 ])
-.triggerAction({
-    matches: /^pdf$/i,
-    confirmPrompt: "This will cancel your current request. Are you sure?"
-});
+    .triggerAction({
+        matches: /^pdf$/i,
+        confirmPrompt: "This will cancel your current request. Are you sure?"
+    });
 
-var menuItems = { 
+var menuItems = {
     "Order dinner": {
         item: "orderDinner"
     },
@@ -115,31 +116,31 @@ var menuItems = {
 
 
 bot.dialog("mainMenu", [
-    function(session){
+    function (session) {
         builder.Prompts.choice(session, "Main Menu:", menuItems);
     },
-    function(session, results){
-        if(results.response){
+    function (session, results) {
+        if (results.response) {
             session.beginDialog(menuItems[results.response.entity].item);
         }
     }
 ])
-.triggerAction({
-    // The user can request this at any time.
-    // Once triggered, it clears the stack and prompts the main menu again.
-    matches: /^main menu$/i,
-    confirmPrompt: "This will cancel your request. Are you sure?"
-});
+    .triggerAction({
+        // The user can request this at any time.
+        // Once triggered, it clears the stack and prompts the main menu again.
+        matches: /^main menu$/i,
+        confirmPrompt: "This will cancel your request. Are you sure?"
+    });
 
 
 
 if (useEmulator) {
     var restify = require('restify');
     var server = restify.createServer();
-    server.listen(3978, function() {
+    server.listen(3978, function () {
         console.log('test bot endpont at http://localhost:3978/api/messages');
     });
-    server.post('/api/messages', connector.listen());    
+    server.post('/api/messages', connector.listen());
 } else {
     module.exports = { default: connector.listen() }
 }
