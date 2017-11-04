@@ -78,6 +78,14 @@ bot.dialog('pdf',[
     function (session) {
 	var sourcePdf = './fw4.pdf';
 	var destPdf = './fw4_filled.pdf';
+	var data = {
+	    "topmostSubform[0].page1[0].f1_01_0_[0]": "34",
+	    "topmostSubform[0].page1[0].f1_02_0_[0]": "66"	    
+	};
+        pdfFiller.fillFrom( sourcePdf, destinationPdf, data, function(err) {
+	    if (err) session.send('Error saving pdf');
+	    console.log("Error saving pdf");
+	});
         builder.Prompts.text(session, "How many children do you have?");
     },
     
