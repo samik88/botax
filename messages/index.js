@@ -19,13 +19,30 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
-
-bot.dialog('/', [
+// Dialog to ask for number of people in the party
+bot.dialog('askForPartySize', [
     function (session) {
-        builder.Prompts.text(session, "Salam... What's your name?");
+        builder.Prompts.text(session, "How many people are in your party?");
     },
     function (session, results) {
-        session.userData.name = results.response;
+       session.endDialogWithResult(results);
+    }
+])
+.beginDialogAction('partySizeHelpAction', 'partySizeHelp', { matches: /^help$/i });
+
+// Context Help dialog for party size
+bot.dialog('partySizeHelp', function(session, args, next) {
+    var msg = "Party size help: Our restaurant can support party sizes up to 150 members.";
+    session.endDialog(msg);
+})
+
+bot.dialog('/', [
+    
+    function (session) {
+        builder.Prompts.text(session, "Salam... What's your name?");
+        session.beginDialog('askForPartySize');
+    },
+    function (session, results) {
         builder.Prompts.number(session, "Hi " + results.response + ", How many years have you been coding?"); 
     },
     function (session, results) {
