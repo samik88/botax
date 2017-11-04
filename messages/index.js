@@ -22,10 +22,9 @@ bot.localePath(path.join(__dirname, './locale'));
 // Dialog to ask for number of people in the party
 
 bot.dialog('/', [
-    
     function (session) {
         builder.Prompts.text(session, "Salam... What's your name?");
-        session.beginDialog('askForPartySize');
+        // session.beginDialog('askForPartySize');
     },
     function (session, results) {
         builder.Prompts.number(session, "Hi " + results.response + ", How many years have you been coding?"); 
