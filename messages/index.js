@@ -21,27 +21,27 @@ var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 // Dialog to ask for number of people in the party
 
-bot.dialog('/', [
-    function (session) {
-        builder.Prompts.text(session, "Salam... What's your name?");
-        // session.beginDialog('askForPartySize');
-    },
-    function (session, results) {
-        builder.Prompts.number(session, "Hi " + results.response + ", How many years have you been coding?"); 
-    },
-    function (session, results) {
-        session.userData.coding = results.response;
-        builder.Prompts.choice(session, "What language do you code Node using?", ["JavaScript", "CoffeeScript", "TypeScript"]);
-    },
-    function (session, results) {
-        session.userData.language = results.response.entity;
-        session.send("Got it... " + session.userData.name + 
-                    " you've been programming for " + session.userData.coding + 
-                    " years and use " + session.userData.language + ".");
-    }
-]);
+// bot.dialog('/', [
+//     function (session) {
+//         builder.Prompts.text(session, "Salam... What's your name?");
+//     },
+//     function (session, results) {
+//         builder.Prompts.number(session, "Hi " + results.response + ", How many years have you been coding?"); 
+//     },
+//     function (session, results) {
+//         session.userData.coding = results.response;
+//         builder.Prompts.choice(session, "What language do you code Node using?", ["JavaScript", "CoffeeScript", "TypeScript"]);
+//     },
+//     function (session, results) {
+//         session.userData.language = results.response.entity;
+//         session.send("Got it... " + session.userData.name + 
+//                     " you've been programming for " + session.userData.coding + 
+//                     " years and use " + session.userData.language + ".");
+//     }
+// ]);
 
-bot.dialog('askForPartySize', [
+
+bot.dialog('/', [
     function (session) {
         builder.Prompts.text(session, "How many people are in your party?");
     },
