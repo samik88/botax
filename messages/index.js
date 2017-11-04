@@ -22,7 +22,7 @@ bot.localePath(path.join(__dirname, './locale'));
 
 bot.dialog('/', [
     function (session) {
-        builder.Prompts.text(session, "Hello... What's your name?");
+        builder.Prompts.text(session, "Salam... What's your name?");
     },
     function (session, results) {
         session.userData.name = results.response;
