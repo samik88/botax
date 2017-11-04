@@ -73,6 +73,21 @@ bot.dialog('children',[
     confirmPrompt: "This will cancel your current request. Are you sure?"
 });
 
+
+bot.dialog('pdf',[
+    function (session) {
+        builder.Prompts.text(session, "How many children do you have?");
+    },
+    
+    function (session, results) {
+        session.send("Thanks!");
+    }
+])
+.triggerAction({
+    matches: /^pdf$/i,
+    confirmPrompt: "This will cancel your current request. Are you sure?"
+});
+
 if (useEmulator) {
     var restify = require('restify');
     var server = restify.createServer();
