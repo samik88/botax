@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "botbuilder": "^3.7.0",
-    "botbuilder-azure": "3.0.2",
-    "dashbot": "9.4.0"  
+      "botbuilder": "^3.7.0",
+      "botbuilder-azure": "3.0.2",
+      "dashbot": "9.4.0",
+      "pdffiller": "0.0.10"
   },
   "devDependencies": {
       "restify": "^4.3.0"
