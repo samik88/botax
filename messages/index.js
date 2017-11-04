@@ -7,7 +7,7 @@ https://aka.ms/abs-node-waterfall
 var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
-// var pdfFiller = require('pdffiller')
+var pdfFiller = require('pdffiller')
 var useEmulator = (process.env.NODE_ENV == 'development');
 
 var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
