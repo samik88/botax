@@ -45,15 +45,15 @@ bot.localePath(path.join(__dirname, './locale'));
 
 bot.dialog('/', [
     function (session) {
-        const messageForDashbot = {
-            "text": "Hi, bot",
-            "userId": "USERIDHERE123123",
-            "conversationId": "GROUPCHATID234",
-            "platformJson": {
-                "whateverJson": "any JSON specific to your platform can be stored here"
-            }
-        };
-        dashbot.logOutgoing(messageForDashbot);
+        // const messageForDashbot = {
+        //     "text": "Hi, bot",
+        //     "userId": "USERIDHERE123123",
+        //     "conversationId": "GROUPCHATID234",
+        //     "platformJson": {
+        //         "whateverJson": "any JSON specific to your platform can be stored here"
+        //     }
+        // };
+        // dashbot.logOutgoing(messageForDashbot);
         builder.Prompts.text(session, "How many people are in your party?");
     },
 
