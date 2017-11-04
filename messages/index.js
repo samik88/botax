@@ -41,6 +41,7 @@ bot.localePath(path.join(__dirname, './locale'));
 // ]);
 
 
+
 bot.dialog('/', [
     function (session) {
         builder.Prompts.text(session, "How many people are in your party?");
@@ -54,10 +55,23 @@ bot.dialog('/', [
 
 // Context Help dialog for party size
 bot.dialog('partySizeHelp', function(session, args, next) {
-    var msg = "Party size help: Our restaurant can support party sizes up to 150 members.";
+    var msg = "P    arty size help: Our restaurant can support party sizes up to 150 members.";
     session.endDialog(msg);
 })
 
+bot.dialog('children',[
+    function (session) {
+        builder.Prompts.text(session, "How many children do you have?");
+    },
+    
+    function (session, results) {
+        session.sent("Thanks!");
+    }
+])
+.triggerAction({
+    matches: /^children$/i,
+    confirmPrompt: "This will cancel your current request. Are you sure?"
+});
 
 if (useEmulator) {
     var restify = require('restify');
