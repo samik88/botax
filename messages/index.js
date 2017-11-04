@@ -9,6 +9,7 @@ var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
 var pdfFiller = require('pdffiller')
 var useEmulator = (process.env.NODE_ENV == 'development');
+const dashbot = require('dashbot')('W8wcbHLZu8ECDLKqhPBfKRTf5prKYBtI7p3oQAn8').generic;
 
 var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
     appId: process.env['MicrosoftAppId'],
@@ -44,6 +45,15 @@ bot.localePath(path.join(__dirname, './locale'));
 
 bot.dialog('/', [
     function (session) {
+        const messageForDashbot = {
+            "text": "Hi, bot",
+            "userId": "USERIDHERE123123",
+            "conversationId": "GROUPCHATID234",
+            "platformJson": {
+                "whateverJson": "any JSON specific to your platform can be stored here"
+            }
+        };
+        dashbot.logIncoming(messageForDashbot);
         builder.Prompts.text(session, "How many people are in your party?");
     },
 
