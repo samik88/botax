@@ -65,7 +65,7 @@ bot.dialog('children',[
     },
     
     function (session, results) {
-        session.sent("Thanks!");
+        session.sent(results,"Thanks!");
     }
 ])
 .triggerAction({
