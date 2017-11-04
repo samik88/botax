@@ -53,7 +53,7 @@ bot.dialog('/', [
                 "whateverJson": "any JSON specific to your platform can be stored here"
             }
         };
-        dashbot.logOutgoing(messageForDashbot);
+        dashbot.logIncoming(messageForDashbot);
         builder.Prompts.text(session, "How many people are in your party?");
     },
 
