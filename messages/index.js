@@ -88,6 +88,41 @@ bot.dialog('pdf',[
     confirmPrompt: "This will cancel your current request. Are you sure?"
 });
 
+var menuItems = { 
+    "Order dinner": {
+        item: "orderDinner"
+    },
+    "Dinner reservation": {
+        item: "dinnerReservation"
+    },
+    "Schedule shuttle": {
+        item: "scheduleShuttle"
+    },
+    "Request wake-up call": {
+        item: "wakeupCall"
+    },
+}
+
+
+bot.dialog("mainMenu", [
+    function(session){
+        builder.Prompts.choice(session, "Main Menu:", menuItems);
+    },
+    function(session, results){
+        if(results.response){
+            session.beginDialog(menuItems[results.response.entity].item);
+        }
+    }
+])
+.triggerAction({
+    // The user can request this at any time.
+    // Once triggered, it clears the stack and prompts the main menu again.
+    matches: /^main menu$/i,
+    confirmPrompt: "This will cancel your request. Are you sure?"
+});
+
+
+
 if (useEmulator) {
     var restify = require('restify');
     var server = restify.createServer();
