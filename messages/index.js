@@ -185,7 +185,7 @@ bot.dialog('/', [
         var type = typeof session.userData.isMarried;
         session.send(type);
         if (session.userData.isMarried) {
-
+            session.send(" to hoW MANY KIDS");
             next();
         } else {
             session.send("test");
