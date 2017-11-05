@@ -26,19 +26,14 @@ var promptChoices = {
     "yes": true,
     "no": false
 };
+
 var salesData = {
-    "west": {
-        units: 200,
-        total: "$6,000"
+    "yes": {
+        value: true
     },
-    "central": {
-        units: 100,
-        total: "$3,000"
+    "no": {
+        value: false
     },
-    "east": {
-        units: 300,
-        total: "$9,000"
-    }
 };
 
 bot.localePath(path.join(__dirname, './locale'));
@@ -80,7 +75,7 @@ bot.dialog('/', [
         session.userData.isLastnameDiff = results.response.entity;
         if (results.response) {
             var region = salesData[results.response.entity];
-            session.send(`We sold ${region.units} units for a total of ${region.total}.`);
+            session.send(`We sold  units for a total of ${region.value.toString()}.`);
         } else {
             session.send("OK");
         }
