@@ -158,14 +158,15 @@ bot.dialog('/', [
         if (results && results.response) {
             session.send("There is result");
             session.send(results.response.entity);
-            // session.userData.hasWorkingSpouse = promptChoices[results.response.entity];
+            session.userData.hasWorkingSpouse = promptChoices[results.response.entity];
         }
 
-        // session.send(session.userData.hasWorkingSpouse);
+        session.send(session.userData.hasWorkingSpouse);
         session.send(session.userData.isMarried.toString());
         var type = typeof session.userData.isMarried;
         session.send(type);
         if (!session.userData.isMarried) {
+            session.send("test");
             var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
             logOutgoingMessage(message);
             builder.Prompts.choice(session, message, promptChoices, {
