@@ -160,21 +160,21 @@ function logIncomingMessage(message) {
     dashbot.logIncoming(messageForDashbot);
 }
 
-const logUserConversation = (event) => {
-    console.log('message: ' + event.text + ', user: ' + event.address.user.name);
-};
+// const logUserConversation = (event) => {
+//     console.log('message: ' + event.text + ', user: ' + event.address.user.name);
+// };
 
-// Middleware for logging
-bot.use({
-    receive: function (event, next) {
-        logUserConversation(event);
-        next();
-    },
-    send: function (event, next) {
-        logUserConversation(event);
-        next();
-    }
-});
+// // Middleware for logging
+// bot.use({
+//     receive: function (event, next) {
+//         logUserConversation(event);
+//         next();
+//     },
+//     send: function (event, next) {
+//         logUserConversation(event);
+//         next();
+//     }
+// });
 
 if (useEmulator) {
     var restify = require('restify');
