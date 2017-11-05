@@ -151,7 +151,7 @@ bot.dialog('/', [
         }
     },
     function (session, results) {
-        if (results.respone) {
+        if (results.response) {
             session.userData.hasWorkingSpouse = promptChoices[results.response.entity];
         } else {
             if (!session.userData.isMarried) {
