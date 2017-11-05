@@ -58,8 +58,6 @@ bot.dialog('/', [
         var message = "Hi " + session.userData.name + ". I'm here to help you with filling W-4 form! You just need to answer couple of quesitons!";
         logOutgoingMessage(message);
         session.send(message);
-    },
-    function (session) {
         var message = 'What is your lastname?';
         logOutgoingMessage(message);
         builder.Prompts.text(session, message);
