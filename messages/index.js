@@ -64,7 +64,8 @@ bot.dialog('/', [
     },
     function (session, results) {
         session.userData.lastname = results.response;
-        logOutgoingMessage(results.response);
+        logIncomingMessage(results.response);
+        logIncomingMessage(session.userData);
     }
 ])
 
