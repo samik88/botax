@@ -27,13 +27,10 @@ var promptChoices = {
     "no": false
 };
 
-var salesData = {
-    "yes": {
-        value: true
-    },
-    "no": {
-        value: false
-    },
+var paymentFrequencyChoice = {
+    "weekly": 1,
+    "bi-weekly": 2,
+    "month": 4
 };
 
 bot.localePath(path.join(__dirname, './locale'));
@@ -64,21 +61,14 @@ bot.dialog('/', [
         var message = "Is your name is different than on SSN?";
         var options = "yes |no";
         logOutgoingMessage(message);
-        builder.Prompts.choice(session, "Which region would you like sales for?", promptChoices, {
+        builder.Prompts.choice(session, message, promptChoices, {
             listStyle: builder.ListStyle.button
         });
-
         session.userData.isLastnameDiff = results.response;
     },
     function (session, results) {
-        // TODO add prompt yes or no
         session.userData.isLastnameDiff = promptChoices[results.response.entity];
-        if (results.response) {
-            session.send(`We sold  units for a total of ${session.userData.isLastnameDiff.toString()}.`);
-        } else {
-            session.send("OK");
-        }
-        logIncomingMessage(results.response);
+        logIncomingMessage(results.response.entity);
         var message = "What is your street addres?";
         logOutgoingMessage(message);
         builder.Prompts.text(session, message);
@@ -107,30 +97,42 @@ bot.dialog('/', [
     function (session, results) {
         session.userData.zip = results.response;
         logIncomingMessage(results.response);
-        var message = "How frequently are you paid? weekly, bi-weekly, monthly?";
+        var message = "How frequently are you paid?";
+        builder.Prompts.choice(session, message, paymentFrequencyChoice, {
+            listStyle: builder.ListStyle.button
+        });
         logOutgoingMessage(message);
         builder.Prompts.text(session, message);
     },
     function (session, results) {
-        // TODO add prompt bi-weekly or monthly
-        session.userData.paymentFrequency = results.response;
-        logIncomingMessage(results.response);
+        session.userData.paymentFrequency = paymentFrequencyChoice[results.response.entity];
+        logIncomingMessage(results.response.entity);
         var message = "Do you have more than 1 jobs?";
         logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
+        builder.Prompts.choice(session, message, promptChoices, {
+            listStyle: builder.ListStyle.button
+        });
+    },
+    function (session, results) {
+        session.userData.hasMultipleJobs = promptChoices[results.response.entity];
+        logIncomingMessage(results.response.entity);
+        var message = "Are you married?";
+        logOutgoingMessage(message);
+        builder.Prompts.choice(session, message, promptChoices, {
+            listStyle: builder.ListStyle.button
+        });
     },
     // function (session, results) {
-    //     // TODO add prompt yes or not
-    //     session.userData.hasMultipleJobs = results.response;
-    //     logIncomingMessage(results.response);
-    //     var message = "Are you married?";
-    //     logOutgoingMessage(message);
-    //     builder.Prompts.text(session, message);
-    // },
-    // function (session, results) {
-    //     // TODO add prompt yes or not
-    //     session.userData.isMarried = results.response;
-    //     logIncomingMessage(results.response);
+    //     session.userData.isMarried = promptChoices[results.response.entity];
+    //     logIncomingMessage(results.response.entity);
+    //     if (session.userData.isMarried) {
+    //         logIncomingMessage(results.response.entity);
+    //         var message = "What is your street addres?";
+    //         logOutgoingMessage(message);
+    //         builder.Prompts.text(session, message);
+    //     } else {
+    //         next();
+    //     }
     //     if (results.response == 'yes') {
     //         // TODO ADD PROMPT yes or no
     //         var message = "Are you filling jointly?";
