@@ -144,9 +144,6 @@ bot.dialog('/', [
     function (session, results) {
         session.userData.isMarried = promptChoices[results.response.entity];
         logIncomingMessage(results.response.entity);
-        session.send(session.userData.isMarried.toString());
-        var type = typeof session.userData.isMarried;
-        session.send(type);
         if (session.userData.isMarried) {
             logIncomingMessage(results.response.entity);
             var message = "Are you filling jointly?";
@@ -178,21 +175,15 @@ bot.dialog('/', [
             session.send(results.response.entity);
             userInfo.hasWorkingSpouse = promptChoices[results.response.entity];
         }
-
-        session.send(userInfo.hasWorkingSpouse.toString());
-        session.send(session.userData.isMarried.toString());
-        var type = typeof session.userData.isMarried;
-        session.send(type);
         if (session.userData.isMarried) {
-            session.send(" to hoW MANY KIDS");
             next();
         } else {
-            session.send("test");
-            var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
-            logOutgoingMessage(message);
-            builder.Prompts.choice(session, message, promptChoices, {
-                listStyle: builder.ListStyle.button
-            });
+            // session.send("test");
+            // var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
+            // logOutgoingMessage(message);
+            // builder.Prompts.choice(session, message, promptChoices, {
+            //     listStyle: builder.ListStyle.button
+            // });
         }
     },
     function (session, results) {
@@ -210,7 +201,7 @@ bot.dialog('/', [
         logIncomingMessage(results.response);
         var message = "What is your first job income?";
         logOutgoingMessage(message);
-        builder.Prompts.number(session, message);
+        builder.Prompts.text(session, message);
     },
     function (session, results) {
         userInfo.income_first = results.response;
