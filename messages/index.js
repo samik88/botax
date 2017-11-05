@@ -10,7 +10,9 @@ var path = require('path');
 // var pdfFiller = require('pdffiller');
 var useEmulator = (process.env.NODE_ENV == 'development');
 var dashbot = require('dashbot')('W8wcbHLZu8ECDLKqhPBfKRTf5prKYBtI7p3oQAn8').generic;
-
+import {
+    calculate
+} from "calculate.js";
 var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
     appId: process.env['MicrosoftAppId'],
     appPassword: process.env['MicrosoftAppPassword'],
@@ -198,13 +200,13 @@ bot.dialog('/', [
     },
     function (session, results) {
         session.send("hoW MANY KIDS");
-        // if (!session.userData.isMarried || !results) {
-        //     userInfo.spending = promptChoices[results.response.entity];
-        //     logIncomingMessage(results.response.entity);
-        // }
-        // var message = "How many kids do you have?";
-        // logOutgoingMessage(message);
-        // builder.Prompts.number(session, message);
+        if (!session.userData.isMarried || !results) {
+            userInfo.spending = promptChoices[results.response.entity];
+            logIncomingMessage(results.response.entity);
+        }
+        var message = "How many kids do you have?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
     },
     function (session, results) {
         userInfo.numberOfKids = results.response;
@@ -267,13 +269,16 @@ bot.dialog('/', [
             listStyle: builder.ListStyle.button
         });
     },
-
     function (session, results) {
         session.userData.isDependent = promptChoices[results.response.entity];
         logIncomingMessage(results.response.entity);
+        calculate(userInfo);
+
+    },
+    function (session, results) {
         var message = `Thank you ${session.userData.name}! Let me know if you need help!`;
         session.endDialog();
-    },
+    }
 ])
 
 bot.dialog('people', [
