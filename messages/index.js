@@ -22,6 +22,11 @@ var bot = new builder.UniversalBot(connector);
 var userId;
 var conversationId;
 
+var promptChoices = {
+    "yes": true,
+    "no": false
+};
+
 bot.localePath(path.join(__dirname, './locale'));
 bot.set(`persistUserData`, true);
 bot.dialog('/', [
@@ -48,8 +53,12 @@ bot.dialog('/', [
         session.userData.lastname = results.response;
         logIncomingMessage(results.response);
         var message = "Is your name is different than on SSN?";
+        var options = "yes |no";
         logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
+        builder.Prompts.choice(session, message, options, {
+            listStyle: builder.ListStyle.button
+        });
+
     },
     function (session, results) {
         // TODO add prompt yes or no
