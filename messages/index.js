@@ -33,6 +33,27 @@ var paymentFrequencyChoice = {
     "month": 4
 };
 
+var userInfo = {
+    name: '',
+    lastName: '',
+    isLastnameDiff: false,
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
+    paymentFrequency: 1,
+    hasMultipleJobs: false,
+    isMarried: false,
+    isFillingJointly: false,
+    hasWorkingSpouse: false,
+    spending: false,
+    numberOfKids: 0,
+    income_first: 0,
+    income_second: 0,
+    numberOfOtherDependents: 0,
+    dependentCare: false,
+    isDependent: false
+}
 bot.localePath(path.join(__dirname, './locale'));
 bot.set(`persistUserData`, true);
 bot.dialog('/', [
@@ -173,7 +194,7 @@ bot.dialog('/', [
                 listStyle: builder.ListStyle.button
             });
         } else {
-            session.userData.isFillingJointly = false;
+            session.userData.spending = false;
             next();
         }
     },
