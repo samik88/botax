@@ -49,7 +49,7 @@ bot.localePath(path.join(__dirname, './locale'));
 bot.dialog('/', [
         function (session) {
             var message = "How many people are in your party?";
-            this.logOutgoingMessage(mesaage);
+            this.logOutgoingMessage(message);
             builder.Prompts.text(session, message);
         },
 
