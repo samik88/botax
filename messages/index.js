@@ -87,18 +87,20 @@ bot.dialog('pdf', [
         function (session) {
 	    var pdfFillForm = require('pdf-fill-form');
 	    var fs = require('fs');
-
-	    pdfFillForm.write('./data/fw4.pdf', { }, { "save": "pdf" } )
-		.then(function(result) {
-		    fs.writeFile("./data/fw4_filled.pdf", result, function(err) {
-			if(err) {
-			    session.send(err);
-			}
-			session.send("The file was saved!");
-		    });
-		}, function(err) {
-		    session.send(err);
-		});
+	    fs.writeFile("./data/testfile", "example", function(err) {
+		session.send("works");
+	    });
+	    // pdfFillForm.write('./data/fw4.pdf', { }, { "save": "pdf" } )
+	    // 	.then(function(result) {
+	    // 	    fs.writeFile("./data/fw4_filled.pdf", result, function(err) {
+	    // 		if(err) {
+	    // 		    session.send(err);
+	    // 		}
+	    // 		session.send("The file was saved!");
+	    // 	    });
+	    // 	}, function(err) {
+	    // 	    session.send(err);
+	    // 	});
             builder.Prompts.text(session, "How many children do you have?");
         },
 
