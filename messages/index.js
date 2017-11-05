@@ -184,15 +184,15 @@ bot.dialog('/', [
         session.send(session.userData.isMarried.toString());
         var type = typeof session.userData.isMarried;
         session.send(type);
-        if (!session.userData.isMarried) {
+        if (session.userData.isMarried) {
+            next();
+        } else {
             session.send("test");
             var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
             logOutgoingMessage(message);
             builder.Prompts.choice(session, message, promptChoices, {
                 listStyle: builder.ListStyle.button
             });
-        } else {
-            next();
         }
     },
     function (session, results) {
