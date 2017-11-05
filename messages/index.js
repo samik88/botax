@@ -66,27 +66,27 @@ bot.dialog('/', [
         logOutgoingMessage(message);
         builder.Prompts.text(session, message);
     },
-    // function (session, results) {
-    //     session.userData.city = results.response;
-    //     logIncomingMessage(results.response);
-    //     var message = "What is your state?";
-    //     logOutgoingMessage(message);
-    //     builder.Prompts.text(session, message);
-    // },
-    // function (session, results) {
-    //     session.userData.state = results.response;
-    //     logIncomingMessage(results.response);
-    //     var message = "What is your zipcode?";
-    //     logOutgoingMessage(message);
-    //     builder.Prompts.text(session, message);
-    // },
-    // function (session, results) {
-    //     session.userData.zip = results.response;
-    //     logIncomingMessage(results.response);
-    //     var message = "How frequently are you paid? weekly, bi-weekly, monthly?";
-    //     logOutgoingMessage(message);
-    //     builder.Prompts.text(session, message);
-    // },
+    function (session, results) {
+        session.userData.city = results.response;
+        logIncomingMessage(results.response);
+        var message = "What is your state?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        session.userData.state = results.response;
+        logIncomingMessage(results.response);
+        var message = "What is your zipcode?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        session.userData.zip = results.response;
+        logIncomingMessage(results.response);
+        var message = "How frequently are you paid? weekly, bi-weekly, monthly?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
     // function (session, results) {
     //     // TODO add prompt bi-weekly or monthly
     //     session.userData.paymentFrequency = results.response;
