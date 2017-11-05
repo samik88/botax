@@ -26,6 +26,20 @@ var promptChoices = {
     "yes": true,
     "no": false
 };
+var salesData = {
+    "west": {
+        units: 200,
+        total: "$6,000"
+    },
+    "central": {
+        units: 100,
+        total: "$3,000"
+    },
+    "east": {
+        units: 300,
+        total: "$9,000"
+    }
+};
 
 bot.localePath(path.join(__dirname, './locale'));
 bot.set(`persistUserData`, true);
@@ -55,17 +69,18 @@ bot.dialog('/', [
         var message = "Is your name is different than on SSN?";
         var options = "yes |no";
         logOutgoingMessage(message);
-        builder.Prompts.choice(session, message, ["yes", "no"]);
+        builder.Prompts.choice(session, "Which region would you like sales for?", salesData);
+
         session.userData.isLastnameDiff = results.response;
-        if (results.response) {
-            session.send(session.userData.isLastnameDiff);
-        }
     },
     function (session, results) {
         // TODO add prompt yes or no
-        session.userData.isLastnameDiff = results.response;
+        session.userData.isLastnameDiff = results.response.entity;
         if (results.response) {
-            session.send(session.userData.isLastnameDiff);
+            var region = salesData[results.response.entity];
+            session.send(`We sold ${region.units} units for a total of ${region.total}.`);
+        } else {
+            session.send("OK");
         }
         logIncomingMessage(results.response);
         var message = "What is your street addres?";
