@@ -48,6 +48,7 @@ bot.localePath(path.join(__dirname, './locale'));
 
 bot.dialog('/', [
     function (session) {
+        logIncomingMessage(session.userData);
         var message = "What is your name?";
         logOutgoingMessage(message);
         builder.Prompts.text(session, message);
@@ -65,7 +66,7 @@ bot.dialog('/', [
     function (session, results) {
         session.userData.lastname = results.response;
         logIncomingMessage(results.response);
-        logIncomingMessage(JSON.stringify(session));
+        logIncomingMessage(session.userData);
     }
 ])
 
