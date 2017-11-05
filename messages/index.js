@@ -54,7 +54,7 @@ bot.dialog('/', [
         },
 
         function (session, results) {
-            logIncomingMessage(results);
+            logIncomingMessage(results.response);
             session.endDialogWithResult(results);
         }
     ])
