@@ -262,7 +262,7 @@ bot.dialog('/', [
     function (session, results) {
         session.userData.isDependent = promptChoices[results.response.entity];
         logIncomingMessage(results.response.entity);
-        userInfo.name = "Sam";
+        userInfo.name = "SaMM";
         var result = calculate(userInfo);
         fillPdf(result)
             .then(function (response) {
