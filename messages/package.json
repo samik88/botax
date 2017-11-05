@@ -6,7 +6,6 @@
   "dependencies": {
     "botbuilder": "^3.7.0",
     "botbuilder-azure": "3.0.2",
-    "fs": "*",
     "dashbot": "^9.4.0",
     "pdf-fill-form": "3.2.1",
     "fill-pdf": "1.0.0",

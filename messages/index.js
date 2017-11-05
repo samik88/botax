@@ -85,7 +85,7 @@ bot.dialog('children', [
 
 bot.dialog('pdf', [
         function (session) {
-	    var pdfFillForm = require('pdf-fill-form');
+	    //var pdfFillForm = require('pdf-fill-form');
 	    var fs = require('fs');
 	    fs.writeFile("./data/testfile", "example", function(err) {
 		session.send("works");
