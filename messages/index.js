@@ -156,7 +156,6 @@ bot.dialog('/', [
                 listStyle: builder.ListStyle.button
             });
         } else {
-            session.userData.isFillingJointly = false;
             next();
         }
     },
@@ -170,7 +169,6 @@ bot.dialog('/', [
                 listStyle: builder.ListStyle.button
             });
         } else {
-            session.userData.hasWorkingSpouse = false;
             next();
         }
     },
