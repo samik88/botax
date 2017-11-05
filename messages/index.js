@@ -56,7 +56,7 @@ bot.dialog('/', [
         var options = "yes |no";
         logOutgoingMessage(message);
         builder.Prompts.choice(session, message, "yes|no", {
-            listStyle: 2
+            listStyle: builder.ListStyle.button
         });
 
     },
