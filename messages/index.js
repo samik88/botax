@@ -54,9 +54,7 @@ bot.dialog('/', [
     },
     function (session, results) {
         session.userData.name = results.response;
-        logOutgoingMessage(results.response);
-    },
-    function (session) {
+        logIncomingMessage(results.response);
         var message = "Hi " + session.userData.name + ". I'm here to help you with filling W-4 form! You just need to answer couple of quesitons!";
         logOutgoingMessage(message);
         session.send(message);
