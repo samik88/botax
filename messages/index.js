@@ -165,9 +165,7 @@ bot.dialog('/', [
         session.send(session.userData.isMarried.toString());
         var type = typeof session.userData.isMarried;
         session.send(type);
-        if (session.userData.isMarried == false) {
-            session.userData.isFillingJointly = promptChoices[results.response.entity];
-            logIncomingMessage(results.response.entity);
+        if (!session.userData.isMarried) {
             var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
             logOutgoingMessage(message);
             builder.Prompts.choice(session, message, promptChoices, {
@@ -180,7 +178,7 @@ bot.dialog('/', [
     },
     function (session, results) {
         if (!session.userData.isMarried) {
-            session.userData.isFillingJointly = promptChoices[results.response.entity];
+            session.userData.spending = promptChoices[results.response.entity];
             logIncomingMessage(results.response.entity);
         }
         var message = "How many kids do you have?";
