@@ -20,34 +20,111 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 
 var bot = new builder.UniversalBot(connector);
 var userId;
-var connectionId;
+var conversationId;
 
 bot.localePath(path.join(__dirname, './locale'));
-// Dialog to ask for number of people in the party
-
-// bot.dialog('/', [
-//     function (session) {
-//         builder.Prompts.text(session, "Salam... What's your name?");
-//     },
-//     function (session, results) {
-//         builder.Prompts.number(session, "Hi " + results.response + ", How many years have you been coding?"); 
-//     },
-//     function (session, results) {
-//         session.userData.coding = results.response;
-//         builder.Prompts.choice(session, "What language do you code Node using?", ["JavaScript", "CoffeeScript", "TypeScript"]);
-//     },
-//     function (session, results) {
-//         session.userData.language = results.response.entity;
-//         session.send("Got it... " + session.userData.name + 
-//                     " you've been programming for " + session.userData.coding + 
-//                     " years and use " + session.userData.language + ".");
-//     }
-// ]);
-
-
-
+bot.set(`persistUserData`, true);
 bot.dialog('/', [
-        function (session) {
+    function (session) {
+        logIncomingMessage(session.userData);
+        var message = "What is your name?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message, {
+            speak: message,
+            retrySpeak: message
+        });
+    },
+    function (session, results) {
+        session.userData.name = results.response;
+        logIncomingMessage(results.response);
+        var message = "Hi " + session.userData.name + ". I'm here to help you with filling W-4 form! You just need to answer couple of quesitons!";
+        logOutgoingMessage(message);
+        session.send(message);
+        var message = 'What is your lastname?';
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        session.userData.lastname = results.response;
+        logIncomingMessage(results.response);
+        var message = "Is your name is different than on SSN?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        // TODO add prompt yes or no
+        session.userData.isLastnameDiff = results.response;
+        logIncomingMessage(results.response);
+        var message = "What is your street addres?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        session.userData.address = results.response;
+        logIncomingMessage(results.response);
+        var message = "What is your city?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        session.userData.city = results.response;
+        logIncomingMessage(results.response);
+        var message = "What is your state?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        session.userData.state = results.response;
+        logIncomingMessage(results.response);
+        var message = "What is your zipcode?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        session.userData.zip = results.response;
+        logIncomingMessage(results.response);
+        var message = "How frequently are you paid? weekly, bi-weekly, monthly?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        // TODO add prompt bi-weekly or monthly
+        session.userData.paymentFrequency = results.response;
+        logIncomingMessage(results.response);
+        var message = "Do you have more than 1 jobs?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    // function (session, results) {
+    //     // TODO add prompt yes or not
+    //     session.userData.hasMultipleJobs = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "Are you married?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     // TODO add prompt yes or not
+    //     session.userData.isMarried = results.response;
+    //     logIncomingMessage(results.response);
+    //     if (results.response == 'yes') {
+    //         // TODO ADD PROMPT yes or no
+    //         var message = "Are you filling jointly?";
+    //         logOutgoingMessage(message);
+    //         builder.Prompts.text(session, message);
+    //     } else {
+    //         var message = "How many kids do you have?";
+    //         logOutgoingMessage(message);
+    //         builder.Prompts.text(session, message);
+    //     }
+    // },
+    function (session, results) {
+        session.send("the result is " + session.userData);
+    }
+])
+
+bot.dialog('people', [
+        function (session, results) {
             var message = "How many people are in your party?";
             logOutgoingMessage(message);
             builder.Prompts.text(session, message);
@@ -64,7 +141,7 @@ bot.dialog('/', [
 
 // Context Help dialog for party size
 bot.dialog('partySizeHelp', function (session, args, next) {
-    var msg = "P    arty size help: Our restaurant can support party sizes up to 150 members.";
+    var msg = "Party size help: Our restaurant can support party sizes up to 150 members.";
     session.endDialog(msg);
 })
 
@@ -83,36 +160,6 @@ bot.dialog('children', [
     });
 
 
-bot.dialog('pdf', [
-        function (session) {
-	    //var pdfFillForm = require('pdf-fill-form');
-	    var fs = require('fs');
-	    fs.writeFile("/messages/data/testfile", "example", function(err) {
-		if (err) session.send(err);
-		session.send("works");
-	    });
-	    // pdfFillForm.write('./data/fw4.pdf', { }, { "save": "pdf" } )
-	    // 	.then(function(result) {
-	    // 	    fs.writeFile("./data/fw4_filled.pdf", result, function(err) {
-	    // 		if(err) {
-	    // 		    session.send(err);
-	    // 		}
-	    // 		session.send("The file was saved!");
-	    // 	    });
-	    // 	}, function(err) {
-	    // 	    session.send(err);
-	    // 	});
-            builder.Prompts.text(session, "How many children do you have?");
-        },
-
-        function (session, results) {
-            session.send("Thanks!");
-        }
-    ])
-    .triggerAction({
-        matches: /^pdf$/i,
-        confirmPrompt: "This will cancel your current request. Are you sure?"
-    });
 
 var menuItems = {
     "Order dinner": {
@@ -150,20 +197,38 @@ bot.dialog("mainMenu", [
 function logOutgoingMessage(message) {
     var messageForDashbot = {
         "text": message,
-        "userId": "USERIDHERE123123",
-        "conversationId": "GROUPCHATID234",
+        "userId": userId,
+        "conversationId": conversationId,
     };
-    dashbot.logOutgoing(messageForDashbot);
+    // dashbot.logOutgoing(messageForDashbot);
 }
 
 function logIncomingMessage(message) {
     var messageForDashbot = {
         "text": message,
-        "userId": "USERIDHERE123123",
-        "conversationId": "GROUPCHATID234",
+        "userId": userId,
+        "conversationId": conversationId,
     };
-    dashbot.logIncoming(messageForDashbot);
+    // dashbot.logIncoming(messageForDashbot);
 }
+
+const logUserConversation = (event) => {
+    logIncomingMessage(event.address.user.id);
+};
+
+// Middleware for logging
+bot.use({
+    receive: function (event, next) {
+        logUserConversation(event);
+        userId = event.address.user.id;
+        conversationId = event.address.conversation.id;
+        next();
+    },
+    send: function (event, next) {
+        logUserConversation(event);
+        next();
+    }
+});
 
 if (useEmulator) {
     var restify = require('restify');
