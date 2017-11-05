@@ -198,13 +198,13 @@ bot.dialog('/', [
     },
     function (session, results) {
         session.send("hoW MANY KIDS");
-        if (!session.userData.isMarried || !results) {
-            userInfo.spending = promptChoices[results.response.entity];
-            logIncomingMessage(results.response.entity);
-        }
-        var message = "How many kids do you have?";
-        logOutgoingMessage(message);
-        builder.Prompts.number(session, message);
+        // if (!session.userData.isMarried || !results) {
+        //     userInfo.spending = promptChoices[results.response.entity];
+        //     logIncomingMessage(results.response.entity);
+        // }
+        // var message = "How many kids do you have?";
+        // logOutgoingMessage(message);
+        // builder.Prompts.number(session, message);
     },
     function (session, results) {
         userInfo.numberOfKids = results.response;
