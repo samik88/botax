@@ -55,9 +55,7 @@ bot.dialog('/', [
         var message = "Is your name is different than on SSN?";
         var options = "yes |no";
         logOutgoingMessage(message);
-        builder.Prompts.choice(session, message, options, {
-            listStyle: builder.ListStyle.button
-        });
+        builder.Prompts.choice(session, message, promptChoices);
 
     },
     function (session, results) {
