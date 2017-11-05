@@ -124,6 +124,9 @@ bot.dialog('/', [
     function (session, results) {
         session.userData.isMarried = promptChoices[results.response.entity];
         logIncomingMessage(results.response.entity);
+        session.send(session.userData.isMarried.toString());
+
+        session.send(typeof session.userData.isMarried === 'boolean');
         if (session.userData.isMarried) {
             logIncomingMessage(results.response.entity);
             var message = "Are you filling jointly?";
