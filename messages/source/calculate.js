@@ -41,16 +41,16 @@ function calculate(obj) {
         dependentCare
     );
 
-    if (shouldProceed()) {
-      calculateAdditionalAmount();
+    if (shouldProceed(hasMultipleIncome, income_first, income_second, isMarried)) {
+      calculateAdditionalAmount(total_allowances, income_first, income_second, paymentFrequency, isMarried, isFilingJointly);
     } 
 
     return {
         name: name,
         lastname: lastname,
         address: address,
-        city: [city, state, zipcode].join(", "),
-        filintStatus: filingStatus(isMarried, isFilingJointly),
+        city: [city, state, zip].join(", "),
+        filingStatus: filingStatus(isMarried, isFilingJointly),
         isLastnameDiff: isLastnameDiff,
         total_allowances: total_allowances,
         additional_amount: additional_amount
@@ -80,7 +80,7 @@ function calculate(obj) {
         }
     }
     function C(isMarried, hasMultipleIncome) {
-        if (isMarried || hasMultipleIncome) {
+        if (!isMarried && !hasMultipleIncome) {
             return 0;
         } else {
             return 1;
@@ -140,6 +140,7 @@ function calculate(obj) {
         total_allowances = new_amount;
     }
     function calculateTotalAllowances(income_first, income_second, isMarried, numberOfKids, hasMultipleIncome, isDependent, numberOfOtherDependents, isHeadOfHousehold, dependentCare) {
+        var result = 0;
         result += A(isDependent);
         result += B(isMarried, hasMultipleIncome, Math.min(income_first, income_second));
         result += C(isMarried, hasMultipleIncome);
@@ -147,7 +148,7 @@ function calculate(obj) {
         result += E(isHeadOfHousehold);
         result += F(dependentCare);
         result += G(income_first + income_second, numberOfKids, isMarried);
-
+        
         setTotalAllowances(result);
     }
     function shouldProceed(hasMultipleIncome, income_first, income_second, isMarried) {
@@ -172,27 +173,27 @@ function calculate(obj) {
     function setAdditionalAmount(new_amount) {
         additional_amount = new_amount;
     }
-    Date.prototype.getWeek = function() {
-        var target = new Date(this.valueOf());
-        var dayNr = (this.getDay() + 6) % 7;
-        target.setDate(target.getDate() - dayNr + 3);
-        var firstThursday = target.valueOf();
-        target.setMonth(0, 1);
-        if (target.getDay() != 4) {
-            target.setMonth(0, 1 + (4 - target.getDay() + 7) % 7);
-        }
-        return 1 + Math.ceil((firstThursday - target) / 604800000);
-    };
     function numberOfLeftPayments(paymentFrequency) {
+        Date.prototype.getWeek = function() {
+            var target = new Date(this.valueOf());
+            var dayNr = (this.getDay() + 6) % 7;
+            target.setDate(target.getDate() - dayNr + 3);
+            var firstThursday = target.valueOf();
+            target.setMonth(0, 1);
+            if (target.getDay() != 4) {
+            target.setMonth(0, 1 + (4 - target.getDay() + 7) % 7);
+            }
+            return 1 + Math.ceil((firstThursday - target) / 604800000);
+        };
+        
         var todayWeek = new Date();
-        var left_week = 52 - todayWeek;
-
+        var left_week = 52 - todayWeek.getWeek();
         return left_week / paymentFrequency;
     }
     function calculateAdditionalAmount(total_allowances, income_first, income_second, paymentFrequency, isMarried, isFilingJointly) {
         var lowest_paying_job = table1(Math.min(income_first, income_second), isFilingJointly);
         var highest_paying_job = table2(Math.max(income_first, income_second), isFilingJointly);
-
+      
         if(isFilingJointly) {
             if(Math.max(income_first, income_second) <= 65000) {
                 if(lowest_paying_job > 3) {
@@ -205,13 +206,13 @@ function calculate(obj) {
             setTotalAllowances(total_allowances - lowest_paying_job);
             return;
         } else {
-        setTotalAllowances(0); 
+            setTotalAllowances(0); 
         }
 
         var line6 = lowest_paying_job - total_allowances;
         var additiona_annual_withholding = line6 * highest_paying_job;
         var numberOfPayments = numberOfLeftPayments(paymentFrequency);
-        setAdditionalAmount(additiona_annual_withholding / numberOfPayments);
+        setAdditionalAmount(Math.ceil(additiona_annual_withholding / numberOfPayments));
 
     }
     function filingStatus(isMarried, isFilingJointly) {
@@ -271,3 +272,27 @@ function calculate(obj) {
     }
 
 }
+
+// var P = {
+//  name: "Mehdi",
+//  lastname: "Ahmadov",
+//  isLastnameDiff: true,
+//  address: "3200 zanker",
+//  city: "San Jose",
+//  state: "CA",
+//  zip: "12312",
+//  paymentFrequency: 2,
+//  hasMultipleJobs: false,
+//  isMarried: true,
+//  isFillingJointly: true,
+//  hasWorkingSpouse: true,
+//  numberOfKids: 2,
+//  income_first: 150000,
+//  income_second: 1000,
+//  spending: false,
+//  numberOfOtherDependents: 0,
+//  dependentCare: false,
+//  isDependent: false
+// }
+
+// console.log(calculate(P));
