@@ -87,22 +87,22 @@ bot.dialog('/', [
         logOutgoingMessage(message);
         builder.Prompts.text(session, message);
     },
-    // function (session, results) {
-    //     // TODO add prompt bi-weekly or monthly
-    //     session.userData.paymentFrequency = results.response;
-    //     logIncomingMessage(results.response);
-    //     var message = "Do you have more than 1 jobs?";
-    //     logOutgoingMessage(message);
-    //     builder.Prompts.text(session, message);
-    // },
-    // function (session, results) {
-    //     // TODO add prompt yes or not
-    //     session.userData.hasMultipleJobs = results.response;
-    //     logIncomingMessage(results.response);
-    //     var message = "Are you married?";
-    //     logOutgoingMessage(message);
-    //     builder.Prompts.text(session, message);
-    // },
+    function (session, results) {
+        // TODO add prompt bi-weekly or monthly
+        session.userData.paymentFrequency = results.response;
+        logIncomingMessage(results.response);
+        var message = "Do you have more than 1 jobs?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        // TODO add prompt yes or not
+        session.userData.hasMultipleJobs = results.response;
+        logIncomingMessage(results.response);
+        var message = "Are you married?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
     // function (session, results) {
     //     // TODO add prompt yes or not
     //     session.userData.isMarried = results.response;
@@ -119,7 +119,7 @@ bot.dialog('/', [
     //     }
     // },
     function (session, results) {
-
+        session.send(session.userData);
     }
 ])
 
