@@ -168,6 +168,7 @@ const logUserConversation = (event) => {
 bot.use({
     receive: function (event, next) {
         logUserConversation(event);
+        logIncomingMessage(event.text);
         next();
     },
     send: function (event, next) {
