@@ -69,7 +69,9 @@ bot.dialog('/', [
         var message = "Is your name is different than on SSN?";
         var options = "yes |no";
         logOutgoingMessage(message);
-        builder.Prompts.choice(session, "Which region would you like sales for?", salesData);
+        builder.Prompts.choice(session, "Which region would you like sales for?", salesData, {
+            listStyle: builder.ListStyle.button
+        });
 
         session.userData.isLastnameDiff = results.response;
     },
