@@ -133,60 +133,60 @@ bot.dialog('/', [
     //         listStyle: builder.ListStyle.button
     //     });
     // },
-    function (session, results) {
-        // session.userData.hasMultipleJobs = promptChoices[results.response.entity];
-        // logIncomingMessage(results.response.entity);
-        var message = "Are you married?";
-        logOutgoingMessage(message);
-        builder.Prompts.choice(session, message, promptChoices, {
-            listStyle: builder.ListStyle.button
-        });
-    },
-    function (session, results) {
-        session.userData.isMarried = promptChoices[results.response.entity];
-        logIncomingMessage(results.response.entity);
-        if (session.userData.isMarried) {
-            logIncomingMessage(results.response.entity);
-            var message = "Are you filling jointly?";
-            logOutgoingMessage(message);
-            builder.Prompts.choice(session, message, promptChoices, {
-                listStyle: builder.ListStyle.button
-            });
-        } else {
-            next();
-        }
-    },
-    function (session, results) {
-        if (session.userData.isMarried) {
-            session.userData.isFillingJointly = promptChoices[results.response.entity];
-            logIncomingMessage(results.response.entity);
-            var message = "Is your spouse working?";
-            logOutgoingMessage(message);
-            builder.Prompts.choice(session, message, promptChoices, {
-                listStyle: builder.ListStyle.button
-            });
-        } else {
-            next();
-        }
-    },
-    function (session, results) {
-        session.send(results);
-        if (results && results.response) {
-            session.send("There is result");
-            session.send(results.response.entity);
-            userInfo.hasWorkingSpouse = promptChoices[results.response.entity];
-        }
-        if (session.userData.isMarried) {
-            next();
-        } else {
-            session.send("test");
-            var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
-            logOutgoingMessage(message);
-            builder.Prompts.choice(session, message, promptChoices, {
-                listStyle: builder.ListStyle.button
-            });
-        }
-    },
+    // function (session, results) {
+    //     session.userData.hasMultipleJobs = promptChoices[results.response.entity];
+    //     logIncomingMessage(results.response.entity);
+    //     var message = "Are you married?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.choice(session, message, promptChoices, {
+    //         listStyle: builder.ListStyle.button
+    //     });
+    // },
+    // function (session, results) {
+    //     session.userData.isMarried = promptChoices[results.response.entity];
+    //     logIncomingMessage(results.response.entity);
+    //     if (session.userData.isMarried) {
+    //         logIncomingMessage(results.response.entity);
+    //         var message = "Are you filling jointly?";
+    //         logOutgoingMessage(message);
+    //         builder.Prompts.choice(session, message, promptChoices, {
+    //             listStyle: builder.ListStyle.button
+    //         });
+    //     } else {
+    //         next();
+    //     }
+    // },
+    // function (session, results) {
+    //     if (session.userData.isMarried) {
+    //         session.userData.isFillingJointly = promptChoices[results.response.entity];
+    //         logIncomingMessage(results.response.entity);
+    //         var message = "Is your spouse working?";
+    //         logOutgoingMessage(message);
+    //         builder.Prompts.choice(session, message, promptChoices, {
+    //             listStyle: builder.ListStyle.button
+    //         });
+    //     } else {
+    //         next();
+    //     }
+    // },
+    // function (session, results) {
+    //     session.send(results);
+    //     if (results && results.response) {
+    //         session.send("There is result");
+    //         session.send(results.response.entity);
+    //         userInfo.hasWorkingSpouse = promptChoices[results.response.entity];
+    //     }
+    //     if (session.userData.isMarried) {
+    //         next();
+    //     } else {
+    //         session.send("test");
+    //         var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
+    //         logOutgoingMessage(message);
+    //         builder.Prompts.choice(session, message, promptChoices, {
+    //             listStyle: builder.ListStyle.button
+    //         });
+    //     }
+    // },
     // function (session, results) {
     //     session.send("hoW MANY KIDS");
     //     if (!session.userData.isMarried || !results) {
@@ -197,67 +197,67 @@ bot.dialog('/', [
     //     logOutgoingMessage(message);
     //     builder.Prompts.text(session, message);
     // },
-    function (session, results) {
-        userInfo.numberOfKids = results.response;
-        logIncomingMessage(results.response);
-        var message = "What is your first job income?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        userInfo.income_first = results.response;
-        logIncomingMessage(results.response);
-        if (session.userData.isMarried) {
-            var message = "Do your spouce work? If yes what is her/his income?";
-            logOutgoingMessage(message);
-            builder.Prompts.number(session, message);
-        } else {
-            next();
-        }
-    },
-    function (session, results) {
-        if (results.response) {
-            session.userData.income_second = results.response;
-        } else {
-            if (session.userData.hasMultipleJobs) {
-                var message = "What is your second job income?";
-                logOutgoingMessage(message);
-                builder.Prompts.number(session, message);
-            } else {
-                session.userData.income_second = 0;
-                next();
-            }
-        }
-    },
-    function (session, results) {
-        if (!session.userData.income_second && results.response) {
-            session.userData.income_second = results.response;
-        }
-        var message = "How many dependents do you have other than kid dependents?";
-        logOutgoingMessage(message);
-        builder.Prompts.number(session, message);
-    },
-    function (session, results) {
-        session.userData.numberOfOtherDependents = results.response;
-        if (session.userData.numberOfKids > 0) {
-            var message = "Do you plan to spend more than 2000 on child care?";
-            logOutgoingMessage(message);
-            builder.Prompts.text(session, message);
-        } else {
-            session.userData.dependentCare = 0;
-            next();
-        }
-    },
-    function (session, results) {
-        if (results.response) {
-            session.userData.dependentCare = results.response;
-        }
-        var message = "Can someone claim you as dependent?";
-        logOutgoingMessage(message);
-        builder.Prompts.choice(session, message, promptChoices, {
-            listStyle: builder.ListStyle.button
-        });
-    },
+    // function (session, results) {
+    //     userInfo.numberOfKids = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "What is your first job income?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     userInfo.income_first = results.response;
+    //     logIncomingMessage(results.response);
+    //     if (session.userData.isMarried) {
+    //         var message = "Do your spouce work? If yes what is her/his income?";
+    //         logOutgoingMessage(message);
+    //         builder.Prompts.number(session, message);
+    //     } else {
+    //         next();
+    //     }
+    // },
+    // function (session, results) {
+    //     if (results.response) {
+    //         session.userData.income_second = results.response;
+    //     } else {
+    //         if (session.userData.hasMultipleJobs) {
+    //             var message = "What is your second job income?";
+    //             logOutgoingMessage(message);
+    //             builder.Prompts.number(session, message);
+    //         } else {
+    //             session.userData.income_second = 0;
+    //             next();
+    //         }
+    //     }
+    // },
+    // function (session, results) {
+    //     if (!session.userData.income_second && results.response) {
+    //         session.userData.income_second = results.response;
+    //     }
+    //     var message = "How many dependents do you have other than kid dependents?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.number(session, message);
+    // },
+    // function (session, results) {
+    //     session.userData.numberOfOtherDependents = results.response;
+    //     if (session.userData.numberOfKids > 0) {
+    //         var message = "Do you plan to spend more than 2000 on child care?";
+    //         logOutgoingMessage(message);
+    //         builder.Prompts.text(session, message);
+    //     } else {
+    //         session.userData.dependentCare = 0;
+    //         next();
+    //     }
+    // },
+    // function (session, results) {
+    //     if (results.response) {
+    //         session.userData.dependentCare = results.response;
+    //     }
+    //     var message = "Can someone claim you as dependent?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.choice(session, message, promptChoices, {
+    //         listStyle: builder.ListStyle.button
+    //     });
+    // },
     function (session, results) {
         session.userData.isDependent = promptChoices[results.response.entity];
         logIncomingMessage(results.response.entity);
