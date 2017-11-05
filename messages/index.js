@@ -51,7 +51,7 @@ bot.dialog('/', [
         logIncomingMessage(session.userData);
         var message = "What is your name?";
         logOutgoingMessage(message);
-        session.say(message, message);
+        session.say('', message);
         builder.Prompts.text(session, message);
     },
     function (session, results) {
