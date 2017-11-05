@@ -19,6 +19,9 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 });
 
 var bot = new builder.UniversalBot(connector);
+var userId;
+var connectionId;
+
 bot.localePath(path.join(__dirname, './locale'));
 // Dialog to ask for number of people in the party
 
@@ -45,19 +48,13 @@ bot.localePath(path.join(__dirname, './locale'));
 
 bot.dialog('/', [
         function (session) {
-            var messageForDashbot = {
-                "text": "Hi, bot",
-                "userId": "USERIDHERE123123",
-                "conversationId": "GROUPCHATID234",
-                "platformJson": {
-                    "whateverJson": "any JSON specific to your platform can be stored here"
-                }
-            };
-            dashbot.logOutgoing(messageForDashbot);
-            builder.Prompts.text(session, "How many people are in your party?");
+            var message = "How many people are in your party?";
+            this.logOutgoingMessage(mesaage);
+            builder.Prompts.text(session, message);
         },
 
         function (session, results) {
+            console.log("results");
             session.endDialogWithResult(results);
         }
     ])
@@ -144,7 +141,23 @@ bot.dialog("mainMenu", [
         confirmPrompt: "This will cancel your request. Are you sure?"
     });
 
+function logOutgoingMessage(message) {
+    var messageForDashbot = {
+        "text": message,
+        "userId": "USERIDHERE123123",
+        "conversationId": "GROUPCHATID234",
+    };
+    dashbot.logOutgoing(messageForDashbot);
+}
 
+function logIncomingMessage(message) {
+    var messageForDashbot = {
+        "text": message,
+        "userId": "USERIDHERE123123",
+        "conversationId": "GROUPCHATID234",
+    };
+    dashbot.logIncoming(messageForDashbot);
+}
 
 if (useEmulator) {
     var restify = require('restify');
