@@ -157,6 +157,11 @@ bot.dialog('/', [
         if (results.response) {
             session.userData.hasWorkingSpouse = promptChoices[results.response.entity];
         }
+
+        session.send(session.userData.hasWorkingSpouse);
+        session.send(session.userData.isMarried.toString());
+        var type = typeof session.userData.isMarried;
+        session.send(type);
         if (session.userData.isMarried == false) {
             session.userData.isFillingJointly = promptChoices[results.response.entity];
             logIncomingMessage(results.response.entity);
