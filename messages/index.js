@@ -185,6 +185,7 @@ bot.dialog('/', [
         var type = typeof session.userData.isMarried;
         session.send(type);
         if (session.userData.isMarried) {
+
             next();
         } else {
             session.send("test");
@@ -196,6 +197,7 @@ bot.dialog('/', [
         }
     },
     function (session, results) {
+        session.send("hoW MANY KIDS");
         if (!session.userData.isMarried || !results) {
             userInfo.spending = promptChoices[results.response.entity];
             logIncomingMessage(results.response.entity);
