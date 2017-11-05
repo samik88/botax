@@ -9,7 +9,6 @@
     "botbuilder-azure": "3.0.2",
     "dashbot": "^9.4.0",
     "fill-pdf": "1.0.0",
-    "http": "0.0.0",
     "pdf-fill-form": "3.2.1",
     "pdffiller": "1.0.0"
   },
