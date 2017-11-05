@@ -49,12 +49,12 @@ bot.set(`persistUserData`, true);
 bot.dialog('/', [
     function (session) {
         logIncomingMessage(session.userData);
-        var message = "What is your name?";
+        var message = "What is your name?" + userId;
         logOutgoingMessage(message);
         builder.Prompts.text(session, message, {
-	    speak: message,
-	    retrySpeak: message
-	});
+            speak: message,
+            retrySpeak: message
+        });
     },
     function (session, results) {
         session.userData.name = results.response;
@@ -148,30 +148,30 @@ function logOutgoingMessage(message) {
     var messageForDashbot = {
         "text": message,
         "userId": userId,
-        "conversationId": conversationId,
+        "conversationId": "conversationId",
     };
-    dashbot.logOutgoing(messageForDashbot);
+    // dashbot.logOutgoing(messageForDashbot);
 }
 
 function logIncomingMessage(message) {
     var messageForDashbot = {
         "text": message,
-        "userId": userId,
-        "conversationId": conversationId,
+        "userId": "userId",
+        "conversationId": "conversationId",
     };
-    dashbot.logIncoming(messageForDashbot);
+    // dashbot.logIncoming(messageForDashbot);
 }
 
 const logUserConversation = (event) => {
-    logIncomingMessage(event);
+    logIncomingMessage(event.address.user.id);
 };
 
 // Middleware for logging
 bot.use({
     receive: function (event, next) {
         logUserConversation(event);
-        userId = Math.floor(Date.now() / 1000);
-        conversationId = Math.floor(Date.now() / 1000);
+        userId = event.address.user.id;
+        conversationId = event.address.conversation.id;
         next();
     },
     send: function (event, next) {
