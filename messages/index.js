@@ -95,14 +95,14 @@ bot.dialog('/', [
         logOutgoingMessage(message);
         builder.Prompts.text(session, message);
     },
-    function (session, results) {
-        // TODO add prompt yes or not
-        session.userData.hasMultipleJobs = results.response;
-        logIncomingMessage(results.response);
-        var message = "Are you married?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
+    // function (session, results) {
+    //     // TODO add prompt yes or not
+    //     session.userData.hasMultipleJobs = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "Are you married?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
     // function (session, results) {
     //     // TODO add prompt yes or not
     //     session.userData.isMarried = results.response;
@@ -141,7 +141,7 @@ bot.dialog('people', [
 
 // Context Help dialog for party size
 bot.dialog('partySizeHelp', function (session, args, next) {
-    var msg = "P    arty size help: Our restaurant can support party sizes up to 150 members.";
+    var msg = "Party size help: Our restaurant can support party sizes up to 150 members.";
     session.endDialog(msg);
 })
 
