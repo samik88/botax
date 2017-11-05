@@ -56,7 +56,10 @@ bot.dialog('/', [
         var options = "yes |no";
         logOutgoingMessage(message);
         builder.Prompts.choice(session, message, ["yes", "no"]);
-
+        session.userData.isLastnameDiff = results.response;
+        if (results.response) {
+            session.send(session.userData.isLastnameDiff);
+        }
     },
     function (session, results) {
         // TODO add prompt yes or no
