@@ -51,8 +51,10 @@ bot.dialog('/', [
         logIncomingMessage(session.userData);
         var message = "What is your name?";
         logOutgoingMessage(message);
-        session.say('', message);
-        builder.Prompts.text(session, message);
+        builder.Prompts.text(session, message, {
+	    speak: message,
+	    retrySpeak: message
+	});
     },
     function (session, results) {
         session.userData.name = results.response;
