@@ -47,7 +47,33 @@ bot.localePath(path.join(__dirname, './locale'));
 
 
 bot.dialog('/', [
-        function (session) {
+    function (session) {
+        var message = "What is your name?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        session.userData.name = results.response;
+        logOutgoingMessage(results.response);
+    },
+    function (session) {
+        var message = "Hi " + session.userData.name + ". I'm here to help you with filling W-4 form! You just need to answer couple of quesitons!";
+        logOutgoingMessage(message);
+        session.send(message);
+    },
+    function (session) {
+        var message = 'What is your lastname?';
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        session.userData.lastname = results.response;
+        logOutgoingMessage(results.response);
+    }
+])
+
+bot.dialog('people', [
+        function (session, results) {
             var message = "How many people are in your party?";
             logOutgoingMessage(message);
             builder.Prompts.text(session, message);
@@ -85,23 +111,23 @@ bot.dialog('children', [
 
 bot.dialog('pdf', [
         function (session) {
-	    //var pdfFillForm = require('pdf-fill-form');
-	    var fs = require('fs');
-	    fs.writeFile("/messages/data/testfile", "example", function(err) {
-		if (err) session.send(err);
-		session.send("works");
-	    });
-	    // pdfFillForm.write('./data/fw4.pdf', { }, { "save": "pdf" } )
-	    // 	.then(function(result) {
-	    // 	    fs.writeFile("./data/fw4_filled.pdf", result, function(err) {
-	    // 		if(err) {
-	    // 		    session.send(err);
-	    // 		}
-	    // 		session.send("The file was saved!");
-	    // 	    });
-	    // 	}, function(err) {
-	    // 	    session.send(err);
-	    // 	});
+            //var pdfFillForm = require('pdf-fill-form');
+            var fs = require('fs');
+            fs.writeFile("/messages/data/testfile", "example", function (err) {
+                if (err) session.send(err);
+                session.send("works");
+            });
+            // pdfFillForm.write('./data/fw4.pdf', { }, { "save": "pdf" } )
+            // 	.then(function(result) {
+            // 	    fs.writeFile("./data/fw4_filled.pdf", result, function(err) {
+            // 		if(err) {
+            // 		    session.send(err);
+            // 		}
+            // 		session.send("The file was saved!");
+            // 	    });
+            // 	}, function(err) {
+            // 	    session.send(err);
+            // 	});
             builder.Prompts.text(session, "How many children do you have?");
         },
 
