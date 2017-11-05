@@ -22,6 +22,17 @@ var bot = new builder.UniversalBot(connector);
 var userId;
 var conversationId;
 
+var promptChoices = {
+    "yes": true,
+    "no": false
+};
+
+var paymentFrequencyChoice = {
+    "weekly": 1,
+    "bi-weekly": 2,
+    "month": 4
+};
+
 bot.localePath(path.join(__dirname, './locale'));
 bot.set(`persistUserData`, true);
 bot.dialog('/', [
@@ -48,13 +59,16 @@ bot.dialog('/', [
         session.userData.lastname = results.response;
         logIncomingMessage(results.response);
         var message = "Is your name is different than on SSN?";
+        var options = "yes |no";
         logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
+        builder.Prompts.choice(session, message, promptChoices, {
+            listStyle: builder.ListStyle.button
+        });
+        session.userData.isLastnameDiff = results.response;
     },
     function (session, results) {
-        // TODO add prompt yes or no
-        session.userData.isLastnameDiff = results.response;
-        logIncomingMessage(results.response);
+        session.userData.isLastnameDiff = promptChoices[results.response.entity];
+        logIncomingMessage(results.response.entity);
         var message = "What is your street addres?";
         logOutgoingMessage(message);
         builder.Prompts.text(session, message);
@@ -83,44 +97,157 @@ bot.dialog('/', [
     function (session, results) {
         session.userData.zip = results.response;
         logIncomingMessage(results.response);
-        var message = "How frequently are you paid? weekly, bi-weekly, monthly?";
+        var message = "How frequently are you paid?";
+        builder.Prompts.choice(session, message, paymentFrequencyChoice, {
+            listStyle: builder.ListStyle.button
+        });
         logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
     },
     function (session, results) {
-        // TODO add prompt bi-weekly or monthly
-        session.userData.paymentFrequency = results.response;
-        logIncomingMessage(results.response);
+        session.userData.paymentFrequency = paymentFrequencyChoice[results.response.entity];
+        logIncomingMessage(results.response.entity);
         var message = "Do you have more than 1 jobs?";
         logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
+        builder.Prompts.choice(session, message, promptChoices, {
+            listStyle: builder.ListStyle.button
+        });
     },
-    // function (session, results) {
-    //     // TODO add prompt yes or not
-    //     session.userData.hasMultipleJobs = results.response;
-    //     logIncomingMessage(results.response);
-    //     var message = "Are you married?";
-    //     logOutgoingMessage(message);
-    //     builder.Prompts.text(session, message);
-    // },
-    // function (session, results) {
-    //     // TODO add prompt yes or not
-    //     session.userData.isMarried = results.response;
-    //     logIncomingMessage(results.response);
-    //     if (results.response == 'yes') {
-    //         // TODO ADD PROMPT yes or no
-    //         var message = "Are you filling jointly?";
-    //         logOutgoingMessage(message);
-    //         builder.Prompts.text(session, message);
-    //     } else {
-    //         var message = "How many kids do you have?";
-    //         logOutgoingMessage(message);
-    //         builder.Prompts.text(session, message);
-    //     }
-    // },
     function (session, results) {
-        session.send("the result is " + session.userData);
-    }
+        session.userData.hasMultipleJobs = promptChoices[results.response.entity];
+        logIncomingMessage(results.response.entity);
+        var message = "Are you married?";
+        logOutgoingMessage(message);
+        builder.Prompts.choice(session, message, promptChoices, {
+            listStyle: builder.ListStyle.button
+        });
+    },
+    function (session, results) {
+        session.userData.isMarried = promptChoices[results.response.entity];
+        logIncomingMessage(results.response.entity);
+        session.send(session.userData.isMarried.toString());
+
+        session.send(typeof session.userData.isMarried);
+        if (session.userData.isMarried) {
+            logIncomingMessage(results.response.entity);
+            var message = "Are you filling jointly?";
+            logOutgoingMessage(message);
+            builder.Prompts.choice(session, message, promptChoices, {
+                listStyle: builder.ListStyle.button
+            });
+        } else {
+            session.userData.isFillingJointly = false;
+            next();
+        }
+    },
+    function (session, results) {
+        if (session.userData.isMarried) {
+            session.userData.isFillingJointly = promptChoices[results.response.entity];
+            logIncomingMessage(results.response.entity);
+            var message = "Is your spouse working?";
+            logOutgoingMessage(message);
+            builder.Prompts.choice(session, message, promptChoices, {
+                listStyle: builder.ListStyle.button
+            });
+        } else {
+            session.userData.hasWorkingSpouse = false;
+            next();
+        }
+    },
+    function (session, results) {
+        if (results.response) {
+            session.userData.hasWorkingSpouse = promptChoices[results.response.entity];
+        } else {
+            if (!session.userData.isMarried) {
+                session.userData.isFillingJointly = promptChoices[results.response.entity];
+                logIncomingMessage(results.response.entity);
+                var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
+                logOutgoingMessage(message);
+                builder.Prompts.choice(session, message, promptChoices, {
+                    listStyle: builder.ListStyle.button
+                });
+            } else {
+                session.userData.isFillingJointly = false;
+                next();
+            }
+        }
+    },
+    function (session, results) {
+        if (!session.userData.isMarried) {
+            session.userData.isFillingJointly = promptChoices[results.response.entity];
+            logIncomingMessage(results.response.entity);
+        }
+        var message = "How many kids do you have?";
+        logOutgoingMessage(message);
+        builder.Prompts.number(session, message);
+    },
+    function (session, results) {
+        session.userData.numberOfKids = results.response;
+        logIncomingMessage(results.response);
+        var message = "What is your first job income?";
+        logOutgoingMessage(message);
+        builder.Prompts.number(session, message);
+    },
+    function (session, results) {
+        session.userData.income_first = results.response;
+        logIncomingMessage(results.response);
+        if (session.userData.isMarried) {
+            var message = "Do your spouce work? If yes what is her/his income?";
+            logOutgoingMessage(message);
+            builder.Prompts.number(session, message);
+        } else {
+            next();
+        }
+    },
+    function (session, results) {
+        if (results.response) {
+            session.userData.income_second = results.response;
+        } else {
+            if (session.userData.hasMultipleJobs) {
+                var message = "What is your second job income?";
+                logOutgoingMessage(message);
+                builder.Prompts.number(session, message);
+            } else {
+                session.userData.income_second = 0;
+                next();
+            }
+        }
+    },
+    function (session, results) {
+        if (!session.userData.income_second && results.response) {
+            session.userData.income_second = results.response;
+        }
+        var message = "How many dependents do you have other than kid dependents?";
+        logOutgoingMessage(message);
+        builder.Prompts.number(session, message);
+    },
+    function (session, results) {
+        session.userData.numberOfOtherDependents = results.response;
+        if (session.userData.numberOfKids > 0) {
+            var message = "Do you plan to spend more than 2000 on child care?";
+            logOutgoingMessage(message);
+            builder.Prompts.text(session, message);
+        } else {
+            session.userData.dependentCare = 0;
+            next();
+        }
+    },
+    function (session, results) {
+        if (results.response) {
+            session.userData.dependentCare = results.response;
+        }
+        var message = "Can someone claim you as dependent?";
+        logOutgoingMessage(message);
+        builder.Prompts.choice(session, message, promptChoices, {
+            listStyle: builder.ListStyle.button
+        });
+    },
+
+    function (session, results) {
+        session.userData.isDependent = promptChoices[results.response.entity];
+        logIncomingMessage(results.response.entity);
+        var message = `Thank you ${session.userData.name}! Let me know if you need help!`;
+        session.endDialog();
+    },
 ])
 
 bot.dialog('people', [
