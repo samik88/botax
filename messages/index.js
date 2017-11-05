@@ -119,7 +119,7 @@ bot.dialog('/', [
     //     }
     // },
     function (session, results) {
-        session.send(session.userData);
+        session.send("the result is " + session.userData);
     }
 ])
 
