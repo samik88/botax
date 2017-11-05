@@ -314,4 +314,4 @@ function calculate(obj) {
 
 // console.log(calculate(P));
 
-export default calculate;
+module.exports = calculate;
