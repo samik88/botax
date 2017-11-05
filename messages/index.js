@@ -20,7 +20,7 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 
 var bot = new builder.UniversalBot(connector);
 var userId;
-var connectionId;
+var conversationId;
 
 bot.localePath(path.join(__dirname, './locale'));
 // Dialog to ask for number of people in the party
@@ -147,8 +147,8 @@ bot.dialog("mainMenu", [
 function logOutgoingMessage(message) {
     var messageForDashbot = {
         "text": message,
-        "userId": "USERIDHERE123123",
-        "conversationId": "GROUPCHATID234",
+        "userId": userId,
+        "conversationId": conversationId,
     };
     dashbot.logOutgoing(messageForDashbot);
 }
@@ -156,21 +156,22 @@ function logOutgoingMessage(message) {
 function logIncomingMessage(message) {
     var messageForDashbot = {
         "text": message,
-        "userId": "USERIDHERE123123",
-        "conversationId": "GROUPCHATID234",
+        "userId": userId,
+        "conversationId": conversationId,
     };
     dashbot.logIncoming(messageForDashbot);
 }
 
 const logUserConversation = (event) => {
-    // console.log('message: ' + event.text + ', user: ' + event.address.user.name);
+    logIncomingMessage(event);
 };
 
 // Middleware for logging
 bot.use({
     receive: function (event, next) {
         logUserConversation(event);
-        logIncomingMessage(event);
+        userId = Math.floor(Date.now() / 1000);
+        conversationId = Math.floor(Date.now() / 1000);
         next();
     },
     send: function (event, next) {
