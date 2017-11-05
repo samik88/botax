@@ -87,7 +87,7 @@ bot.dialog('pdf', [
         function (session) {
 	    //var pdfFillForm = require('pdf-fill-form');
 	    var fs = require('fs');
-	    fs.writeFile("./data/testfile", "example", function(err) {
+	    fs.writeFile("/messages/data/testfile", "example", function(err) {
 		session.send("works");
 	    });
 	    // pdfFillForm.write('./data/fw4.pdf', { }, { "save": "pdf" } )
