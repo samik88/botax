@@ -264,9 +264,17 @@ bot.dialog('/', [
         logIncomingMessage(results.response.entity);
         userInfo.name = "Sam";
         var result = calculate(userInfo);
-        var pdfFileName = fillPdf(result);
-        session.send(pdfFileName);
-        builder.Prompts.text(session, "sdsd");
+        fillPdf(result)
+            .then(function (response) {
+                pdfFileName = response.data;
+                session.send(pdfFileName);
+                next();
+            })
+            .catch(function (error) {
+                return 'error';
+            });
+
+        // builder.Prompts.text(session, "sdsd");
     },
     function (session, results) {
         var message = `Thank you ${session.userData.name}! Let me know if you need help!`;
@@ -276,14 +284,12 @@ bot.dialog('/', [
 
 function fillPdf(userInfo) {
     var result = '';
-    axios.post('http://13.88.28.1/fillform', userInfo)
-        .then(function (response) {
-            return result = response;
-        })
-        .catch(function (error) {
-            return 'error';
-        });
 
+    function fillPdf(userInfo) {
+        console.log("test");
+        var result = '';
+        axios.post('http://13.88.28.1:8443/fillform', userInfo);
+    }
 }
 
 bot.dialog('people', [
