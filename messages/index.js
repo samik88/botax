@@ -45,76 +45,76 @@ bot.dialog('/', [
             retrySpeak: message
         });
     },
+    // function (session, results) {
+    //     session.userData.name = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "Hi " + session.userData.name + ". I'm here to help you with filling W-4 form! You just need to answer couple of quesitons!";
+    //     logOutgoingMessage(message);
+    //     session.send(message);
+    //     var message = 'What is your lastname?';
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     session.userData.lastname = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "Is your name is different than on SSN?";
+    //     var options = "yes |no";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.choice(session, message, promptChoices, {
+    //         listStyle: builder.ListStyle.button
+    //     });
+    //     session.userData.isLastnameDiff = results.response;
+    // },
+    // function (session, results) {
+    //     session.userData.isLastnameDiff = promptChoices[results.response.entity];
+    //     logIncomingMessage(results.response.entity);
+    //     var message = "What is your street addres?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     session.userData.address = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "What is your city?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     session.userData.city = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "What is your state?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     session.userData.state = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "What is your zipcode?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     session.userData.zip = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "How frequently are you paid?";
+    //     builder.Prompts.choice(session, message, paymentFrequencyChoice, {
+    //         listStyle: builder.ListStyle.button
+    //     });
+    //     logOutgoingMessage(message);
+    // },
+    // function (session, results) {
+    //     session.userData.paymentFrequency = paymentFrequencyChoice[results.response.entity];
+    //     logIncomingMessage(results.response.entity);
+    //     var message = "Do you have more than 1 jobs?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.choice(session, message, promptChoices, {
+    //         listStyle: builder.ListStyle.button
+    //     });
+    // },
     function (session, results) {
-        session.userData.name = results.response;
-        logIncomingMessage(results.response);
-        var message = "Hi " + session.userData.name + ". I'm here to help you with filling W-4 form! You just need to answer couple of quesitons!";
-        logOutgoingMessage(message);
-        session.send(message);
-        var message = 'What is your lastname?';
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        session.userData.lastname = results.response;
-        logIncomingMessage(results.response);
-        var message = "Is your name is different than on SSN?";
-        var options = "yes |no";
-        logOutgoingMessage(message);
-        builder.Prompts.choice(session, message, promptChoices, {
-            listStyle: builder.ListStyle.button
-        });
-        session.userData.isLastnameDiff = results.response;
-    },
-    function (session, results) {
-        session.userData.isLastnameDiff = promptChoices[results.response.entity];
-        logIncomingMessage(results.response.entity);
-        var message = "What is your street addres?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        session.userData.address = results.response;
-        logIncomingMessage(results.response);
-        var message = "What is your city?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        session.userData.city = results.response;
-        logIncomingMessage(results.response);
-        var message = "What is your state?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        session.userData.state = results.response;
-        logIncomingMessage(results.response);
-        var message = "What is your zipcode?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        session.userData.zip = results.response;
-        logIncomingMessage(results.response);
-        var message = "How frequently are you paid?";
-        builder.Prompts.choice(session, message, paymentFrequencyChoice, {
-            listStyle: builder.ListStyle.button
-        });
-        logOutgoingMessage(message);
-    },
-    function (session, results) {
-        session.userData.paymentFrequency = paymentFrequencyChoice[results.response.entity];
-        logIncomingMessage(results.response.entity);
-        var message = "Do you have more than 1 jobs?";
-        logOutgoingMessage(message);
-        builder.Prompts.choice(session, message, promptChoices, {
-            listStyle: builder.ListStyle.button
-        });
-    },
-    function (session, results) {
-        session.userData.hasMultipleJobs = promptChoices[results.response.entity];
-        logIncomingMessage(results.response.entity);
+        // session.userData.hasMultipleJobs = promptChoices[results.response.entity];
+        // logIncomingMessage(results.response.entity);
         var message = "Are you married?";
         logOutgoingMessage(message);
         builder.Prompts.choice(session, message, promptChoices, {
@@ -125,8 +125,8 @@ bot.dialog('/', [
         session.userData.isMarried = promptChoices[results.response.entity];
         logIncomingMessage(results.response.entity);
         session.send(session.userData.isMarried.toString());
-
-        session.send(typeof session.userData.isMarried);
+        var type = typeof session.userData.isMarried;
+        session.send(type);
         if (session.userData.isMarried) {
             logIncomingMessage(results.response.entity);
             var message = "Are you filling jointly?";
@@ -154,26 +154,32 @@ bot.dialog('/', [
         }
     },
     function (session, results) {
-        if (results.response) {
+        session.send(results);
+        if (results && results.response) {
+            session.send("There is result");
+            session.send(results.response.entity);
             session.userData.hasWorkingSpouse = promptChoices[results.response.entity];
+        }
+
+        session.send(session.userData.hasWorkingSpouse);
+        session.send(session.userData.isMarried.toString());
+        var type = typeof session.userData.isMarried;
+        session.send(type);
+        if (!session.userData.isMarried) {
+            session.send("test");
+            var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
+            logOutgoingMessage(message);
+            builder.Prompts.choice(session, message, promptChoices, {
+                listStyle: builder.ListStyle.button
+            });
         } else {
-            if (!session.userData.isMarried) {
-                session.userData.isFillingJointly = promptChoices[results.response.entity];
-                logIncomingMessage(results.response.entity);
-                var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
-                logOutgoingMessage(message);
-                builder.Prompts.choice(session, message, promptChoices, {
-                    listStyle: builder.ListStyle.button
-                });
-            } else {
-                session.userData.isFillingJointly = false;
-                next();
-            }
+            session.userData.isFillingJointly = false;
+            next();
         }
     },
     function (session, results) {
         if (!session.userData.isMarried) {
-            session.userData.isFillingJointly = promptChoices[results.response.entity];
+            session.userData.spending = promptChoices[results.response.entity];
             logIncomingMessage(results.response.entity);
         }
         var message = "How many kids do you have?";
