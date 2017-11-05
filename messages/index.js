@@ -34,13 +34,13 @@ var paymentFrequencyChoice = {
 };
 
 var userInfo = {
-    name: '',
-    lastName: '',
+    name: 'Sam',
+    lastName: 'Ahm',
     isLastnameDiff: false,
-    address: '',
-    city: '',
-    state: '',
-    zip: '',
+    address: 'TEST',
+    city: 'TEST',
+    state: 'TEST',
+    zip: 'TEST',
     paymentFrequency: 1,
     hasMultipleJobs: false,
     isMarried: false,
