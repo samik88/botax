@@ -9,7 +9,7 @@ var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
 var pdfFiller = require('pdffiller');
 var useEmulator = (process.env.NODE_ENV == 'development');
-// var dashbot = require('dashbot')('W8wcbHLZu8ECDLKqhPBfKRTf5prKYBtI7p3oQAn8').generic;
+var dashbot = require('dashbot')('W8wcbHLZu8ECDLKqhPBfKRTf5prKYBtI7p3oQAn8').generic;
 
 var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
     appId: process.env['MicrosoftAppId'],
@@ -44,24 +44,26 @@ bot.localePath(path.join(__dirname, './locale'));
 
 
 bot.dialog('/', [
-    function (session) {
-        // const messageForDashbot = {
-        //     "text": "Hi, bot",
-        //     "userId": "USERIDHERE123123",
-        //     "conversationId": "GROUPCHATID234",
-        //     "platformJson": {
-        //         "whateverJson": "any JSON specific to your platform can be stored here"
-        //     }
-        // };
-        // dashbot.logOutgoing(messageForDashbot);
-        builder.Prompts.text(session, "How many people are in your party?");
-    },
+        function (session) {
+            var messageForDashbot = {
+                "text": "Hi, bot",
+                "userId": "USERIDHERE123123",
+                "conversationId": "GROUPCHATID234",
+                "platformJson": {
+                    "whateverJson": "any JSON specific to your platform can be stored here"
+                }
+            };
+            dashbot.logOutgoing(messageForDashbot);
+            builder.Prompts.text(session, "How many people are in your party?");
+        },
 
-    function (session, results) {
-        session.endDialogWithResult(results);
-    }
-])
-    .beginDialogAction('partySizeHelpAction', 'partySizeHelp', { matches: /^help$/i });
+        function (session, results) {
+            session.endDialogWithResult(results);
+        }
+    ])
+    .beginDialogAction('partySizeHelpAction', 'partySizeHelp', {
+        matches: /^help$/i
+    });
 
 // Context Help dialog for party size
 bot.dialog('partySizeHelp', function (session, args, next) {
@@ -70,14 +72,14 @@ bot.dialog('partySizeHelp', function (session, args, next) {
 })
 
 bot.dialog('children', [
-    function (session) {
-        builder.Prompts.text(session, "How many children do you have?");
-    },
+        function (session) {
+            builder.Prompts.text(session, "How many children do you have?");
+        },
 
-    function (session, results) {
-        session.send("Thanks!");
-    }
-])
+        function (session, results) {
+            session.send("Thanks!");
+        }
+    ])
     .triggerAction({
         matches: /^children$/i,
         confirmPrompt: "This will cancel your current request. Are you sure?"
@@ -85,25 +87,25 @@ bot.dialog('children', [
 
 
 bot.dialog('pdf', [
-    function (session) {
-        var sourcePdf = '/data/fw4.pdf';
-        var destPdf = '/data/fw4_filled.pdf';
-        var data = {
-            "topmostSubform[0].page1[0].f1_01_0_[0]": "34",
-            "topmostSubform[0].page1[0].f1_02_0_[0]": "66"
-        };
+        function (session) {
+            var sourcePdf = '/data/fw4.pdf';
+            var destPdf = '/data/fw4_filled.pdf';
+            var data = {
+                "topmostSubform[0].page1[0].f1_01_0_[0]": "34",
+                "topmostSubform[0].page1[0].f1_02_0_[0]": "66"
+            };
 
-        pdfFiller.fillForm(sourcePdf, destPdf, data, function (err) {
-            if (err) session.send('Error saving pdf');
-            console.log("Error saving pdf");
-        });
-        builder.Prompts.text(session, "How many children do you have?");
-    },
+            pdfFiller.fillForm(sourcePdf, destPdf, data, function (err) {
+                if (err) session.send('Error saving pdf');
+                console.log("Error saving pdf");
+            });
+            builder.Prompts.text(session, "How many children do you have?");
+        },
 
-    function (session, results) {
-        session.send("Thanks!");
-    }
-])
+        function (session, results) {
+            session.send("Thanks!");
+        }
+    ])
     .triggerAction({
         matches: /^pdf$/i,
         confirmPrompt: "This will cancel your current request. Are you sure?"
@@ -126,15 +128,15 @@ var menuItems = {
 
 
 bot.dialog("mainMenu", [
-    function (session) {
-        builder.Prompts.choice(session, "Main Menu:", menuItems);
-    },
-    function (session, results) {
-        if (results.response) {
-            session.beginDialog(menuItems[results.response.entity].item);
+        function (session) {
+            builder.Prompts.choice(session, "Main Menu:", menuItems);
+        },
+        function (session, results) {
+            if (results.response) {
+                session.beginDialog(menuItems[results.response.entity].item);
+            }
         }
-    }
-])
+    ])
     .triggerAction({
         // The user can request this at any time.
         // Once triggered, it clears the stack and prompts the main menu again.
@@ -152,5 +154,7 @@ if (useEmulator) {
     });
     server.post('/api/messages', connector.listen());
 } else {
-    module.exports = { default: connector.listen() }
+    module.exports = {
+        default: connector.listen()
+    }
 }
