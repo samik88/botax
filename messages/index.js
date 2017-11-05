@@ -113,8 +113,8 @@ bot.dialog('/', [
     //     });
     // },
     function (session, results) {
-        session.userData.hasMultipleJobs = promptChoices[results.response.entity];
-        logIncomingMessage(results.response.entity);
+        // session.userData.hasMultipleJobs = promptChoices[results.response.entity];
+        // logIncomingMessage(results.response.entity);
         var message = "Are you married?";
         logOutgoingMessage(message);
         builder.Prompts.choice(session, message, promptChoices, {
