@@ -62,7 +62,7 @@ bot.dialog('/', [
         // TODO add prompt yes or no
         session.userData.isLastnameDiff = results.response;
         if (results.response) {
-            session.send(results.response);
+            session.send(session.userData.isLastnameDiff);
         }
         logIncomingMessage(results.response);
         var message = "What is your street addres?";
