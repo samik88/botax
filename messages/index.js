@@ -275,27 +275,15 @@ bot.dialog('/', [
 ])
 
 function fillPdf(userInfo) {
-    var options = {
-        host: ' http://13.88.28.1',
-        path: '/fillform?' + userInfo,
-        port: '8443',
-        //This is the only line that is new. `headers` is an object with the headers to request
-        headers: {
-            'custom': 'Custom Header Demo works'
-        }
-    };
     var result = '';
-    callback = function (response) {
-        response.on('data', function (fileName) {
-            result = fileName;
+    axios.post('http://13.88.28.1/fillform', userInfo)
+        .then(function (response) {
+            return result = response;
+        })
+        .catch(function (error) {
+            return 'error';
         });
 
-        response.on('end', function () {});
-    }
-
-    var req = http.request(options, callback).on()
-    req.end();
-    return result;
 }
 
 bot.dialog('people', [
