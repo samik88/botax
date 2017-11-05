@@ -261,6 +261,7 @@ bot.dialog('/', [
     function (session, results) {
         session.userData.isDependent = promptChoices[results.response.entity];
         logIncomingMessage(results.response.entity);
+        userInfo.name = "Sam";
         var result = calculate(userInfo);
         session.send(result.name);
         builder.Prompts.text(session, "sdsd");
