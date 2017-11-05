@@ -51,22 +51,21 @@ bot.dialog('/', [
         logOutgoingMessage(message);
         builder.Prompts.text(session, message);
     },
-    // },
-    // function (session, results) {
-    //     // TODO add prompt yes or no
-    //     session.userData.isLastnameDiff = results.response;
-    //     logIncomingMessage(results.response);
-    //     var message = "What is your street addres?";
-    //     logOutgoingMessage(message);
-    //     builder.Prompts.text(session, message);
-    // },
-    // function (session, results) {
-    //     session.userData.address = results.response;
-    //     logIncomingMessage(results.response);
-    //     var message = "What is your city?";
-    //     logOutgoingMessage(message);
-    //     builder.Prompts.text(session, message);
-    // },
+    function (session, results) {
+        // TODO add prompt yes or no
+        session.userData.isLastnameDiff = results.response;
+        logIncomingMessage(results.response);
+        var message = "What is your street addres?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
+    function (session, results) {
+        session.userData.address = results.response;
+        logIncomingMessage(results.response);
+        var message = "What is your city?";
+        logOutgoingMessage(message);
+        builder.Prompts.text(session, message);
+    },
     // function (session, results) {
     //     session.userData.city = results.response;
     //     logIncomingMessage(results.response);
