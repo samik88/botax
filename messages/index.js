@@ -158,10 +158,10 @@ bot.dialog('/', [
         if (results && results.response) {
             session.send("There is result");
             session.send(results.response.entity);
-            session.userData.hasWorkingSpouse = promptChoices[results.response.entity];
+            // session.userData.hasWorkingSpouse = promptChoices[results.response.entity];
         }
 
-        session.send(session.userData.hasWorkingSpouse);
+        // session.send(session.userData.hasWorkingSpouse);
         session.send(session.userData.isMarried.toString());
         var type = typeof session.userData.isMarried;
         session.send(type);
