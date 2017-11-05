@@ -7,6 +7,7 @@ https://aka.ms/abs-node-waterfall
 var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
+var http = require('http');
 // var pdfFiller = require('pdffiller');
 var useEmulator = (process.env.NODE_ENV == 'development');
 var dashbot = require('dashbot')('W8wcbHLZu8ECDLKqhPBfKRTf5prKYBtI7p3oQAn8').generic;
@@ -263,7 +264,8 @@ bot.dialog('/', [
         logIncomingMessage(results.response.entity);
         userInfo.name = "Sam";
         var result = calculate(userInfo);
-        session.send(result.name);
+        var pdfFileName = fillPdf(result);
+        session.send(pdfFileName);
         builder.Prompts.text(session, "sdsd");
     },
     function (session, results) {
@@ -271,6 +273,30 @@ bot.dialog('/', [
         session.endDialog();
     }
 ])
+
+function fillPdf(userInfo) {
+    var options = {
+        host: ' http://13.88.28.1',
+        path: '/fillform?' + userInfo,
+        port: '8443',
+        //This is the only line that is new. `headers` is an object with the headers to request
+        headers: {
+            'custom': 'Custom Header Demo works'
+        }
+    };
+    var result = '';
+    callback = function (response) {
+        response.on('data', function (fileName) {
+            result = fileName;
+        });
+
+        response.on('end', function () {});
+    }
+
+    var req = http.request(options, callback).on()
+    req.end();
+    return result;
+}
 
 bot.dialog('people', [
         function (session, results) {
