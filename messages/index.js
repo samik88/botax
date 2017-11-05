@@ -72,10 +72,9 @@ bot.dialog('/', [
     },
     function (session, results) {
         // TODO add prompt yes or no
-        session.userData.isLastnameDiff = results.response.entity;
+        session.userData.isLastnameDiff = promptChoices[results.response.entity];
         if (results.response) {
-            var region = salesData[results.response.entity];
-            session.send(`We sold  units for a total of ${region.value.toString()}.`);
+            session.send(`We sold  units for a total of ${session.userData.isLastnameDiff.toString()}.`);
         } else {
             session.send("OK");
         }
