@@ -55,16 +55,14 @@ bot.dialog('/', [
         var message = "Is your name is different than on SSN?";
         var options = "yes |no";
         logOutgoingMessage(message);
-        builder.Prompts.choice(session, message, promptChoices, {
-            listStyle: builder.ListStyle.button
-        });
+        builder.Prompts.choice(session, message, promptChoices);
 
     },
     function (session, results) {
         // TODO add prompt yes or no
         session.userData.isLastnameDiff = results.response;
         if (results.response) {
-            session.send(promptChoices[results.response.entity]);
+            session.send(results.response);
         }
         logIncomingMessage(results.response);
         var message = "What is your street addres?";
