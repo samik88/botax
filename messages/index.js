@@ -157,7 +157,7 @@ bot.dialog('/', [
         if (results.response) {
             session.userData.hasWorkingSpouse = promptChoices[results.response.entity];
         }
-        if (!session.userData.isMarried) {
+        if (session.userData.isMarried == false) {
             session.userData.isFillingJointly = promptChoices[results.response.entity];
             logIncomingMessage(results.response.entity);
             var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
