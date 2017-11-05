@@ -51,8 +51,8 @@ bot.dialog('/', [
         logIncomingMessage(session.userData);
         var message = "What is your name?";
         logOutgoingMessage(message);
-	session.say("Hi. What is your name?", "Hi. What is your name?")
-        builder.Prompts.text(session, "");
+        session.say(message, message);
+        builder.Prompts.text(session, message);
     },
     function (session, results) {
         session.userData.name = results.response;
@@ -159,6 +159,22 @@ function logIncomingMessage(message) {
     };
     dashbot.logIncoming(messageForDashbot);
 }
+
+const logUserConversation = (event) => {
+    console.log('message: ' + event.text + ', user: ' + event.address.user.name);
+};
+
+// Middleware for logging
+bot.use({
+    receive: function (event, next) {
+        logUserConversation(event);
+        next();
+    },
+    send: function (event, next) {
+        logUserConversation(event);
+        next();
+    }
+});
 
 if (useEmulator) {
     var restify = require('restify');
