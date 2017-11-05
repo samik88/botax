@@ -16,6 +16,7 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
     stateEndpoint: process.env['BotStateEndpoint'],
     openIdMetadata: process.env['BotOpenIdMetadata']
 });
+var calculate = require('./calculate');
 
 var bot = new builder.UniversalBot(connector);
 var userId;
@@ -178,24 +179,24 @@ bot.dialog('/', [
         if (session.userData.isMarried) {
             next();
         } else {
-            // session.send("test");
-            // var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
-            // logOutgoingMessage(message);
-            // builder.Prompts.choice(session, message, promptChoices, {
-            //     listStyle: builder.ListStyle.button
-            // });
+            session.send("test");
+            var message = "Are you spending more than 50% of you income to support home for yourself and your and dependents?";
+            logOutgoingMessage(message);
+            builder.Prompts.choice(session, message, promptChoices, {
+                listStyle: builder.ListStyle.button
+            });
         }
     },
-    function (session, results) {
-        session.send("hoW MANY KIDS");
-        if (!session.userData.isMarried || !results) {
-            userInfo.spending = promptChoices[results.response.entity];
-            logIncomingMessage(results.response.entity);
-        }
-        var message = "How many kids do you have?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
+    // function (session, results) {
+    //     session.send("hoW MANY KIDS");
+    //     if (!session.userData.isMarried || !results) {
+    //         userInfo.spending = promptChoices[results.response.entity];
+    //         logIncomingMessage(results.response.entity);
+    //     }
+    //     var message = "How many kids do you have?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
     function (session, results) {
         userInfo.numberOfKids = results.response;
         logIncomingMessage(results.response);
@@ -260,7 +261,8 @@ bot.dialog('/', [
     function (session, results) {
         session.userData.isDependent = promptChoices[results.response.entity];
         logIncomingMessage(results.response.entity);
-        // calculate(userInfo);
+        var result = calculate(userInfo);
+        session.send(result.name);
         builder.Prompts.text(session, "sdsd");
     },
     function (session, results) {
