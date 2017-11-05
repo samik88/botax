@@ -154,7 +154,10 @@ bot.dialog('/', [
         }
     },
     function (session, results) {
-        if (results.response) {
+        session.send(results);
+        if (results && results.response) {
+            session.send("There is result");
+            session.send(results.response.entity);
             session.userData.hasWorkingSpouse = promptChoices[results.response.entity];
         }
 
