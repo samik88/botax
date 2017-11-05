@@ -365,6 +365,7 @@ function logIncomingMessage(message) {
 
 const logUserConversation = (event) => {
     logIncomingMessage(event.address.user.id);
+
 };
 
 // Middleware for logging
