@@ -45,7 +45,7 @@ bot.localePath(path.join(__dirname, './locale'));
 // ]);
 
 
-
+bot.set(`persistUserData`, true);
 bot.dialog('/', [
     function (session) {
         logIncomingMessage(session.userData);
@@ -107,36 +107,6 @@ bot.dialog('children', [
     });
 
 
-bot.dialog('pdf', [
-        function (session) {
-            //var pdfFillForm = require('pdf-fill-form');
-            var fs = require('fs');
-            fs.writeFile("/messages/data/testfile", "example", function (err) {
-                if (err) session.send(err);
-                session.send("works");
-            });
-            // pdfFillForm.write('./data/fw4.pdf', { }, { "save": "pdf" } )
-            // 	.then(function(result) {
-            // 	    fs.writeFile("./data/fw4_filled.pdf", result, function(err) {
-            // 		if(err) {
-            // 		    session.send(err);
-            // 		}
-            // 		session.send("The file was saved!");
-            // 	    });
-            // 	}, function(err) {
-            // 	    session.send(err);
-            // 	});
-            builder.Prompts.text(session, "How many children do you have?");
-        },
-
-        function (session, results) {
-            session.send("Thanks!");
-        }
-    ])
-    .triggerAction({
-        matches: /^pdf$/i,
-        confirmPrompt: "This will cancel your current request. Are you sure?"
-    });
 
 var menuItems = {
     "Order dinner": {
