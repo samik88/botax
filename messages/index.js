@@ -51,73 +51,74 @@ bot.dialog('/', [
         logOutgoingMessage(message);
         builder.Prompts.text(session, message);
     },
-    function (session, results) {
-        // TODO add prompt yes or no
-        session.userData.isLastnameDiff = results.response;
-        logIncomingMessage(results.response);
-        var message = "What is your street addres?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        session.userData.address = results.response;
-        logIncomingMessage(results.response);
-        var message = "What is your city?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        session.userData.city = results.response;
-        logIncomingMessage(results.response);
-        var message = "What is your state?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        session.userData.state = results.response;
-        logIncomingMessage(results.response);
-        var message = "What is your zipcode?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        session.userData.zip = results.response;
-        logIncomingMessage(results.response);
-        var message = "How frequently are you paid? weekly, bi-weekly, monthly?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        // TODO add prompt bi-weekly or monthly
-        session.userData.paymentFrequency = results.response;
-        logIncomingMessage(results.response);
-        var message = "Do you have more than 1 jobs?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        // TODO add prompt yes or not
-        session.userData.hasMultipleJobs = results.response;
-        logIncomingMessage(results.response);
-        var message = "Are you married?";
-        logOutgoingMessage(message);
-        builder.Prompts.text(session, message);
-    },
-    function (session, results) {
-        // TODO add prompt yes or not
-        session.userData.isMarried = results.response;
-        logIncomingMessage(results.response);
-        if (results.response == 'yes') {
-            // TODO ADD PROMPT yes or no
-            var message = "Are you filling jointly?";
-            logOutgoingMessage(message);
-            builder.Prompts.text(session, message);
-        } else {
-            var message = "How many kids do you have?";
-            logOutgoingMessage(message);
-            builder.Prompts.text(session, message);
-        }
-    },
+    // },
+    // function (session, results) {
+    //     // TODO add prompt yes or no
+    //     session.userData.isLastnameDiff = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "What is your street addres?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     session.userData.address = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "What is your city?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     session.userData.city = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "What is your state?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     session.userData.state = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "What is your zipcode?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     session.userData.zip = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "How frequently are you paid? weekly, bi-weekly, monthly?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     // TODO add prompt bi-weekly or monthly
+    //     session.userData.paymentFrequency = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "Do you have more than 1 jobs?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     // TODO add prompt yes or not
+    //     session.userData.hasMultipleJobs = results.response;
+    //     logIncomingMessage(results.response);
+    //     var message = "Are you married?";
+    //     logOutgoingMessage(message);
+    //     builder.Prompts.text(session, message);
+    // },
+    // function (session, results) {
+    //     // TODO add prompt yes or not
+    //     session.userData.isMarried = results.response;
+    //     logIncomingMessage(results.response);
+    //     if (results.response == 'yes') {
+    //         // TODO ADD PROMPT yes or no
+    //         var message = "Are you filling jointly?";
+    //         logOutgoingMessage(message);
+    //         builder.Prompts.text(session, message);
+    //     } else {
+    //         var message = "How many kids do you have?";
+    //         logOutgoingMessage(message);
+    //         builder.Prompts.text(session, message);
+    //     }
+    // },
     function (session, results) {
 
     }
